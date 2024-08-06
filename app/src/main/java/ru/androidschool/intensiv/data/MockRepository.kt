@@ -15,4 +15,6 @@ object MockRepository {
 
         return moviesList
     }
+
+    fun getTvShows() = (1..10).map { TvShow("TV show $it", 10f - it) }
 }
