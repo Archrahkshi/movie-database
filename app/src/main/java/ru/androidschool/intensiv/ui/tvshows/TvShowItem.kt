@@ -16,7 +16,7 @@ class TvShowItem(
 
     override fun bind(viewBinding: ItemTvShowBinding, position: Int) {
         viewBinding.tvShowName.text = content.title
-        viewBinding.tvShowRating.rating = content.voteAverage
+        viewBinding.tvShowRating.rating = content.voteAverage / 2
         viewBinding.itemTvShow.setOnClickListener { onClick(content) }
 
         Picasso.get()
