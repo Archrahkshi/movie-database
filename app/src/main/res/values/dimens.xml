@@ -16,12 +16,9 @@
     <dimen name="movie_card_text_width">96dp</dimen>
     <dimen name="close_width">20dp</dimen>
 
-    <dimen name="dimens_32">32dp</dimen>
     <dimen name="search_bar_height">56dp</dimen>
     <dimen name="min_height">100dp</dimen>
 
     <!-- TV show item -->
-    <dimen name="tv_show_height">213dp</dimen>
-    <dimen name="tv_show_text_height">32dp</dimen>
-
+    <dimen name="tv_show_preview_height">213dp</dimen>
 </resources>
