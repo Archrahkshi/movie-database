@@ -22,7 +22,7 @@
 
 
     <TextView
-        android:id="@+id/tv_show_name"
+        android:id="@+id/tv_show_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="2dp"
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toStartOf="@+id/tv_show_rating"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_show_preview"
-        tools:text="TV show name" />
+        tools:text="TV show title" />
 
     <RatingBar
         android:id="@+id/tv_show_rating"

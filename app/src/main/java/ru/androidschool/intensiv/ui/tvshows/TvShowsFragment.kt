@@ -21,7 +21,15 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tvShowsRecyclerView.adapter = adapter.apply {
-            add(TvShowItem(TvShow("A TV show with a very very very very long title", 10f)) {})
+            add(
+                TvShowItem(
+                    TvShow(
+                        "A TV show with a very very very very long title",
+                        10f,
+                        "https://i.ytimg.com/vi/mkD5Nsr4vfc/maxresdefault.jpg"
+                    )
+                ) {}
+            )
             addAll(MockRepository.getTvShows().map { TvShowItem(it) {} })
         }
     }

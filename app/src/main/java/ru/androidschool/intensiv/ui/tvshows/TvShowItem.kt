@@ -16,11 +16,11 @@ class TvShowItem(
 
     override fun bind(viewBinding: ItemTvShowBinding, position: Int) {
         with(viewBinding) {
-            tvShowName.text = content.title
-            // voteAverage is 0..10, but rating in RatingBar is 0..5 with step 0.5
-            tvShowRating.rating = content.voteAverage / 2
+            tvShowTitle.text = content.title
+            // content.rating is 0..10, but rating in RatingBar is 0..5 with step 0.5
+            tvShowRating.rating = content.rating / 2
             itemTvShow.setOnClickListener { onClick(content) }
-            tvShowPreview.loadFromUrl("https://i.ytimg.com/vi/mkD5Nsr4vfc/maxresdefault.jpg")
+            tvShowPreview.loadFromUrl(content.previewUrl)
         }
     }
 

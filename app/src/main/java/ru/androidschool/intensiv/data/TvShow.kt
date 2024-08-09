@@ -2,5 +2,6 @@ package ru.androidschool.intensiv.data
 
 class TvShow(
     val title: String? = "",
-    val voteAverage: Float = 0f
+    val rating: Float = 0f,
+    val previewUrl: String = ""
 )
