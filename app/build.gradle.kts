@@ -22,9 +22,11 @@ android {
 
         buildConfigField(
             "String",
-            "THE_MOVIE_DATABASE_API",
+            "API_KEY",
             keystoreProperties.getProperty("THE_MOVIE_DATABASE_API")
         )
+        buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3\"")
+        buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/w500\"")
     }
 
     buildTypes {
@@ -62,14 +64,20 @@ android {
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
     implementation(libs.kotlin.stdlib.jdk7)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.appcompat)
-    implementation(libs.constraintlayout)
     implementation(libs.material)
+    implementation(libs.constraintlayout)
+    implementation(libs.recyclerview)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
 
     // Architecture components
     implementation(libs.core.ktx)
@@ -83,25 +91,16 @@ dependencies {
     androidTestImplementation(libs.runner)
     androidTestImplementation(libs.espresso.core)
 
-    // Navigation
-    implementation(libs.navigation.fragment.ktx)
-    implementation(libs.navigation.ui.ktx)
-
-    // Picasso
     implementation(libs.picasso)
     implementation(libs.picasso.transformations)
 
-    implementation(libs.recyclerview)
-
-    // Groupie
     implementation(libs.groupie)
     implementation(libs.groupie.viewbinding)
 
     implementation(libs.timber)
 
     implementation(libs.retrofit)
-
-    implementation(libs.converter.gson)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     implementation(libs.logging.interceptor)
 }

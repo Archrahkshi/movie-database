@@ -4,34 +4,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.MockRepository
 import com.archrahkshi.moviedatabase.data.Movie
+import com.archrahkshi.moviedatabase.data.MoviesResponse
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
+import com.archrahkshi.moviedatabase.network.MovieApiClient
+import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.afterTextChanged
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import timber.log.Timber
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber.Forest.d
+import timber.log.Timber.Forest.e
 
-class FeedFragment : Fragment(R.layout.feed_fragment) {
-
-    private var _binding: FeedFragmentBinding? = null
+class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     private var _searchBinding: FeedHeaderBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
     private val searchBinding get() = _searchBinding!!
 
-    private val adapter by lazy {
-        GroupAdapter<GroupieViewHolder>()
-    }
+    private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
 
     private val options = navOptions {
         anim {
@@ -42,52 +41,76 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
         }
     }
 
+    override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FeedFragmentBinding.inflate(inflater, container, false)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FeedFragmentBinding.inflate(inflater, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
         _searchBinding = FeedHeaderBinding.bind(binding.root)
+        requireActivity().addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
+                    inflater.inflate(R.menu.main_menu, menu)
+                }
+
+                override fun onMenuItemSelected(item: MenuItem): Boolean {
+                    TODO("Not yet implemented")
+                }
+            }
+        )
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         searchBinding.searchToolbar.binding.searchEditText.afterTextChanged {
-            Timber.d(it.toString())
+            d(it.toString())
             if (it.toString().length > MIN_LENGTH) {
                 openSearch(it.toString())
             }
         }
 
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
-        val moviesList =
-                MockRepository.getMovies().map {
-                    MovieItem(it) { movie ->
-                        openMovieDetails(
-                            movie
-                        )
+        MovieApiClient.getPopular().enqueue(
+            object : Callback<MoviesResponse> {
+                override fun onResponse(
+                    call: Call<MoviesResponse>,
+                    response: Response<MoviesResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        binding.moviesRecyclerView.adapter = adapter.apply {
+                            addAll(
+                                response.body()!!.results.map { MovieItem(it, ::openMovieDetails) }
+                            )
+                        }
                     }
-                }.toList()
+                }
 
-
-        binding.moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
-
+                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                    e(t)
+                }
+            }
+        )
     }
 
     private fun openMovieDetails(movie: Movie) {
-        val bundle = Bundle()
-        bundle.putString(KEY_TITLE, movie.title)
-        findNavController().navigate(R.id.movie_details_fragment, bundle, options)
+        findNavController().navigate(
+            R.id.movie_details_fragment,
+            Bundle().apply { putString(KEY_TITLE, movie.title) },
+            options
+        )
     }
 
     private fun openSearch(searchText: String) {
-        val bundle = Bundle()
-        bundle.putString(KEY_SEARCH, searchText)
-        findNavController().navigate(R.id.search_dest, bundle, options)
+        findNavController().navigate(
+            R.id.search_dest,
+            Bundle().apply { putString(KEY_SEARCH, searchText) },
+            options
+        )
     }
 
     override fun onStop() {
@@ -95,13 +118,8 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
         searchBinding.searchToolbar.clear()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         _searchBinding = null
     }
 

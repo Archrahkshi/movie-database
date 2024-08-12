@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content"
+    android:id="@+id/container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/material_margin_super_small"
@@ -19,7 +19,7 @@
         android:layout_height="@dimen/movie_card_height"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
-        tools:background="@color/white"
+        app:strokeColor="@null"
         tools:src="@drawable/ic_avatar" />
 
     <TextView
@@ -34,14 +34,11 @@
         tools:text="Мир дикого запада"
         tools:textColor="@color/white" />
 
-    <androidx.appcompat.widget.AppCompatRatingBar
+    <RatingBar
         android:id="@+id/movie_rating"
-        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+        style="@android:style/Widget.Material.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:isIndicator="true"
         android:numStars="5"
-        android:progressBackgroundTint="@color/colorControlNormal"
-        android:stepSize="0.5"
-        tools:rating="5" />
+        android:stepSize=".1" />
 </LinearLayout>

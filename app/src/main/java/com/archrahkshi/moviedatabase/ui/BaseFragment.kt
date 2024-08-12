@@ -14,7 +14,8 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
 
     abstract fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?): Binding
 
-    final override fun onCreateView(
+    @CallSuper
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
