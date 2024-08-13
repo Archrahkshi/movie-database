@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.databinding.FragmentProfileBinding
+import com.archrahkshi.moviedatabase.databinding.ProfileFragmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
@@ -19,7 +19,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var profileTabLayoutTitles: Array<String>
 
-    private var _binding: FragmentProfileBinding? = null
+    private var _binding: ProfileFragmentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -40,7 +40,7 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = ProfileFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 

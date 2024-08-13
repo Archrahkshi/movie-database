@@ -18,7 +18,7 @@ class MovieItem(
     override fun bind(viewBinding: ItemWithTextBinding, position: Int) {
         with(viewBinding) {
             description.text = content.title
-            // content.rating is 0..10, but rating in RatingBar is 0..5 with step 0.1
+            // content.voteAverage is 0..10, but rating in RatingBar is 0..5 stars
             movieRating.rating = content.voteAverage / 2
             container.setOnClickListener { onClick(content) }
             imagePreview.loadFromUrl("$IMAGE_BASE_URL${content.posterPath}")

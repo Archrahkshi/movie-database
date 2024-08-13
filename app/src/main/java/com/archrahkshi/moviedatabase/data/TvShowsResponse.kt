@@ -2,12 +2,10 @@ package com.archrahkshi.moviedatabase.data
 
 import kotlinx.serialization.Serializable
 
-@Suppress("ArrayInDataClass")
 @Serializable
-data class MoviesResponse(
-    val dates: Pair<String, String>? = null,
+data class TvShowsResponse(
     val page: Int = 0,
-    val results: Array<Movie> = emptyArray(),
+    val results: List<TvShow>,
     val totalPages: Int = 0,
     val totalResults: Int = 0
 )

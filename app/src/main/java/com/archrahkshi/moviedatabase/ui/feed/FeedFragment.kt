@@ -15,7 +15,7 @@ import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.data.MoviesResponse
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
-import com.archrahkshi.moviedatabase.network.MovieApiClient
+import com.archrahkshi.moviedatabase.network.ApiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.afterTextChanged
 import com.xwray.groupie.GroupAdapter
@@ -75,7 +75,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
             }
         }
 
-        MovieApiClient.getPopular().enqueue(
+        ApiClient.getPopularMovies().enqueue(
             object : Callback<MoviesResponse> {
                 override fun onResponse(
                     call: Call<MoviesResponse>,

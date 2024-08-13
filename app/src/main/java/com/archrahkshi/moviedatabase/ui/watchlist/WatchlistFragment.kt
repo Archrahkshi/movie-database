@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.archrahkshi.moviedatabase.data.MoviesResponse
 import com.archrahkshi.moviedatabase.databinding.FragmentWatchlistBinding
-import com.archrahkshi.moviedatabase.network.MovieApiClient
+import com.archrahkshi.moviedatabase.network.ApiClient
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import retrofit2.Call
@@ -43,7 +43,7 @@ class WatchlistFragment : Fragment() {
         binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, 4)
         binding.moviesRecyclerView.adapter = adapter.apply { addAll(listOf()) }
 
-        MovieApiClient.getPopular().enqueue(
+        ApiClient.getPopularMovies().enqueue(
             object : Callback<MoviesResponse> {
                 override fun onResponse(
                     call: Call<MoviesResponse>,
