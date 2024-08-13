@@ -1,6 +1,83 @@
 package com.archrahkshi.moviedatabase.ui.movie_details
 
-import androidx.fragment.app.Fragment
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.archrahkshi.moviedatabase.BuildConfig.IMAGE_BASE_URL
 import com.archrahkshi.moviedatabase.R
+import com.archrahkshi.moviedatabase.data.MovieCredits
+import com.archrahkshi.moviedatabase.data.MovieDetails
+import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
+import com.archrahkshi.moviedatabase.network.ApiClient
+import com.archrahkshi.moviedatabase.ui.BaseFragment
+import com.archrahkshi.moviedatabase.ui.feed.FeedFragment.Companion.KEY_MOVIE_ID
+import com.archrahkshi.moviedatabase.ui.loadFromUrl
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber.Forest.e
 
-class MovieDetailsFragment : Fragment(R.layout.movie_details_fragment)
+class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
+    private var movieId = 0
+    private val creditsAdapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
+
+    override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        MovieDetailsFragmentBinding.inflate(inflater, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        movieId = requireArguments().getInt(KEY_MOVIE_ID)
+        ApiClient.getMovieDetails(movieId).enqueue(
+            object : Callback<MovieDetails> {
+                override fun onResponse(
+                    call: Call<MovieDetails>,
+                    response: Response<MovieDetails>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.run {
+                            with(binding) {
+                                movieBackdrop.loadFromUrl("$IMAGE_BASE_URL$backdropPath")
+                                movieTitleDetailed.text = title
+                                movieRatingDetailed.text =
+                                    getString(R.string.imdb_rating, voteAverage)
+                                movieDescription.text = overview
+                                renderCredits()
+                                movieStudio.text = productionCompanies.joinToString { it.name }
+                                movieGenre.text = genres.joinToString { it.name }
+                                movieYear.text = releaseDate.substringBefore('-')
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
+                    e(t)
+                }
+            }
+        )
+    }
+
+    private fun renderCredits() {
+        ApiClient.getMovieCredits(movieId).enqueue(
+            object : Callback<MovieCredits> {
+                override fun onResponse(
+                    call: Call<MovieCredits>,
+                    response: Response<MovieCredits>
+                ) {
+                    if (response.isSuccessful) {
+                        binding.movieCredits.adapter = creditsAdapter.apply {
+                            addAll(response.body()!!.cast.map(::ActorItem))
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<MovieCredits>, t: Throwable) {
+                    e(t)
+                }
+            }
+        )
+    }
+}

@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Movie(
-    val adult: Boolean,
+    val adult: Boolean = true,
     val backdropPath: String,
     val genreIds: List<Int>,
     val id: Int,

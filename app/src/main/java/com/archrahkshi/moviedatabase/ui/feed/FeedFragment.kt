@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -81,7 +82,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
                     call: Call<MoviesResponse>,
                     response: Response<MoviesResponse>
                 ) {
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful && response.body() != null) {
                         binding.moviesRecyclerView.adapter = adapter.apply {
                             addAll(
                                 response.body()!!.results.map { MovieItem(it, ::openMovieDetails) }
@@ -100,7 +101,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     private fun openMovieDetails(movie: Movie) {
         findNavController().navigate(
             R.id.movie_details_fragment,
-            Bundle().apply { putInt(KEY_ID, movie.id) },
+            bundleOf(KEY_MOVIE_ID to movie.id),
             options
         )
     }
@@ -108,7 +109,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     private fun openSearch(searchText: String) {
         findNavController().navigate(
             R.id.search_dest,
-            Bundle().apply { putString(KEY_SEARCH, searchText) },
+            bundleOf(KEY_SEARCH to searchText),
             options
         )
     }
@@ -125,7 +126,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
 
     companion object {
         const val MIN_LENGTH = 3
-        const val KEY_ID = "id"
+        const val KEY_MOVIE_ID = "movieId"
         const val KEY_SEARCH = "search"
     }
 }

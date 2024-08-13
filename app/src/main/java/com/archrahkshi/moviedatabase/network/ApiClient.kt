@@ -29,9 +29,6 @@ object ApiClient {
         ).build().create<ApiInterface>()
     }
 
-    fun getNowPlayingMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
-        apiClient.getNowPlayingMovies(API_KEY, language, page, region)
-
     fun getPopularMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
         apiClient.getPopularMovies(API_KEY, language, page, region)
 
@@ -45,7 +42,10 @@ object ApiClient {
         movieId: Int,
         appendToResponse: String? = null,
         language: String = "ru-RU"
-    ) = apiClient.getMovieDetails(movieId, appendToResponse, language)
+    ) = apiClient.getMovieDetails(movieId, API_KEY, appendToResponse, language)
+
+    fun getMovieCredits(movieId: Int, language: String = "ru-RU") =
+        apiClient.getMovieCredits(movieId, API_KEY, language)
 
     fun getPopularTvShows(language: String = "ru-RU", page: Int = 1) =
         apiClient.getPopularTvShows(API_KEY, language, page)

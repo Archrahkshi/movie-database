@@ -5,7 +5,7 @@ import com.archrahkshi.moviedatabase.BuildConfig.IMAGE_BASE_URL
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.ItemTvShowBinding
-import com.archrahkshi.moviedatabase.util.loadFromUrl
+import com.archrahkshi.moviedatabase.ui.loadFromUrl
 import com.xwray.groupie.viewbinding.BindableItem
 
 class TvShowItem(
