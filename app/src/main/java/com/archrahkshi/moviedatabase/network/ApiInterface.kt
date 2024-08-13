@@ -1,9 +1,11 @@
 package com.archrahkshi.moviedatabase.network
 
+import com.archrahkshi.moviedatabase.data.MovieDetails
 import com.archrahkshi.moviedatabase.data.MoviesResponse
 import com.archrahkshi.moviedatabase.data.TvShowsResponse
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiInterface {
@@ -38,6 +40,13 @@ interface ApiInterface {
         @Query("page") page: Int,
         @Query("region") region: String
     ): Call<MoviesResponse>
+
+    @GET("movie/{movie_id}")
+    fun getMovieDetails(
+        @Path("movie_id") movieId: Int,
+        @Query("append_to_response") appendToResponse: String?,
+        @Query("language") language: String
+    ): Call<MovieDetails>
 
     @GET("tv/popular")
     fun getPopularTvShows(

@@ -100,7 +100,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     private fun openMovieDetails(movie: Movie) {
         findNavController().navigate(
             R.id.movie_details_fragment,
-            Bundle().apply { putString(KEY_TITLE, movie.title) },
+            Bundle().apply { putInt(KEY_ID, movie.id) },
             options
         )
     }
@@ -125,7 +125,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
 
     companion object {
         const val MIN_LENGTH = 3
-        const val KEY_TITLE = "title"
+        const val KEY_ID = "id"
         const val KEY_SEARCH = "search"
     }
 }

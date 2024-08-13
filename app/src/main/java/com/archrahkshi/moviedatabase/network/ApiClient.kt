@@ -19,13 +19,11 @@ object ApiClient {
     private val format = Json { namingStrategy = SnakeCase }
     private val apiClient by lazy {
         Retrofit.Builder().baseUrl(BASE_URL).client(
-            if (DEBUG) {
-                OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply { level = BODY })
-                    .build()
-            } else {
-                OkHttpClient()
-            }
+            OkHttpClient.Builder().apply {
+                if (DEBUG) {
+                    addInterceptor(HttpLoggingInterceptor().apply { level = BODY })
+                }
+            }.build()
         ).addConverterFactory(
             format.asConverterFactory("application/json".toMediaType())
         ).build().create<ApiInterface>()
@@ -42,6 +40,12 @@ object ApiClient {
 
     fun getUpcomingMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
         apiClient.getUpcomingMovies(API_KEY, language, page, region)
+
+    fun getMovieDetails(
+        movieId: Int,
+        appendToResponse: String? = null,
+        language: String = "ru-RU"
+    ) = apiClient.getMovieDetails(movieId, appendToResponse, language)
 
     fun getPopularTvShows(language: String = "ru-RU", page: Int = 1) =
         apiClient.getPopularTvShows(API_KEY, language, page)
