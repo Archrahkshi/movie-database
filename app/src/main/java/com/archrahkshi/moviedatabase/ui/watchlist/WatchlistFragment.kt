@@ -6,16 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.archrahkshi.moviedatabase.data.Movies
 import com.archrahkshi.moviedatabase.databinding.WatchlistFragmentBinding
 import com.archrahkshi.moviedatabase.network.ApiClient
-import com.archrahkshi.moviedatabase.ui.ifSuccessful
+import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber.Forest.e
 
 class WatchlistFragment : Fragment() {
 
@@ -24,10 +19,6 @@ class WatchlistFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-    private val adapter by lazy {
-        GroupAdapter<GroupieViewHolder>()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,26 +33,13 @@ class WatchlistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, 4)
-        binding.moviesRecyclerView.adapter = adapter.apply { addAll(listOf()) }
 
-        ApiClient.getPopularMovies().enqueue(
-            object : Callback<Movies> {
-                override fun onResponse(
-                    call: Call<Movies>,
-                    response: Response<Movies>
-                ) {
-                    response.ifSuccessful {
-                        binding.moviesRecyclerView.adapter = adapter.apply {
-                            addAll(results.map { MoviePreviewItem(it) {} })
-                        }
-                    }
+        ApiClient.getPopularMovies().then {
+            binding.moviesRecyclerView.adapter =
+                GroupAdapter<GroupieViewHolder>().apply {
+                    addAll(results.map { MoviePreviewItem(it) {} })
                 }
-
-                override fun onFailure(call: Call<Movies>, t: Throwable) {
-                    e(t)
-                }
-            }
-        )
+        }
     }
 
     override fun onDestroyView() {

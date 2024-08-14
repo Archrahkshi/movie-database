@@ -8,21 +8,16 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
-import com.archrahkshi.moviedatabase.data.Movies
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.network.ApiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragmentWithSearch
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.UPCOMING
-import com.archrahkshi.moviedatabase.ui.ifSuccessful
 import com.archrahkshi.moviedatabase.ui.navOptions
+import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber.Forest.e
 
 const val KEY_MOVIE_ID = "movieId"
 
@@ -56,30 +51,20 @@ class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
                 title = getString(R.string.upcoming)
                 ApiClient.getUpcomingMovies()
             }
-        }.enqueue(
-            object : Callback<Movies> {
-                override fun onResponse(call: Call<Movies>, response: Response<Movies>) {
-                    response.ifSuccessful {
-                        binding.moviesRecyclerView.adapter = adapter.apply {
-                            add(
-                                MovieCardContainer(
-                                    title,
-                                    results.filter {
-                                        it.title != null && it.posterPath != null
-                                    }.map {
-                                        MovieItem(it, ::openMovieDetails)
-                                    }
-                                )
-                            )
+        }.then {
+            binding.moviesRecyclerView.adapter = adapter.apply {
+                add(
+                    MovieCardContainer(
+                        title,
+                        results.filter {
+                            it.title != null && it.posterPath != null
+                        }.map {
+                            MovieItem(it, ::openMovieDetails)
                         }
-                    }
-                }
-
-                override fun onFailure(call: Call<Movies>, t: Throwable) {
-                    e(t)
-                }
+                    )
+                )
             }
-        )
+        }
     }
 
     override fun onDestroyView() {
