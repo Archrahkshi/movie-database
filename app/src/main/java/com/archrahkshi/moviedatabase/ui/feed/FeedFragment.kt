@@ -8,13 +8,14 @@ import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
-import com.archrahkshi.moviedatabase.data.MoviesResponse
+import com.archrahkshi.moviedatabase.data.Movies
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.network.ApiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragmentWithSearch
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.UPCOMING
+import com.archrahkshi.moviedatabase.ui.ifSuccessful
 import com.archrahkshi.moviedatabase.ui.navOptions
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -56,17 +57,14 @@ class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
                 ApiClient.getUpcomingMovies()
             }
         }.enqueue(
-            object : Callback<MoviesResponse> {
-                override fun onResponse(
-                    call: Call<MoviesResponse>,
-                    response: Response<MoviesResponse>
-                ) {
-                    if (response.isSuccessful && response.body() != null) {
+            object : Callback<Movies> {
+                override fun onResponse(call: Call<Movies>, response: Response<Movies>) {
+                    response.ifSuccessful {
                         binding.moviesRecyclerView.adapter = adapter.apply {
                             add(
                                 MovieCardContainer(
                                     title,
-                                    response.body()!!.results.filter {
+                                    results.filter {
                                         it.title != null && it.posterPath != null
                                     }.map {
                                         MovieItem(it, ::openMovieDetails)
@@ -77,7 +75,7 @@ class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
                     }
                 }
 
-                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                override fun onFailure(call: Call<Movies>, t: Throwable) {
                     e(t)
                 }
             }

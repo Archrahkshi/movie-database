@@ -2,8 +2,8 @@ package com.archrahkshi.moviedatabase.network
 
 import com.archrahkshi.moviedatabase.data.MovieCredits
 import com.archrahkshi.moviedatabase.data.MovieDetails
-import com.archrahkshi.moviedatabase.data.MoviesResponse
-import com.archrahkshi.moviedatabase.data.TvShowsResponse
+import com.archrahkshi.moviedatabase.data.Movies
+import com.archrahkshi.moviedatabase.data.TvShows
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,7 +16,7 @@ interface ApiInterface {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String
-    ): Call<MoviesResponse>
+    ): Call<Movies>
 
     @GET("movie/popular")
     fun getPopularMovies(
@@ -24,7 +24,7 @@ interface ApiInterface {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String
-    ): Call<MoviesResponse>
+    ): Call<Movies>
 
     @GET("movie/upcoming")
     fun getUpcomingMovies(
@@ -32,7 +32,7 @@ interface ApiInterface {
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String
-    ): Call<MoviesResponse>
+    ): Call<Movies>
 
     @GET("movie/{movie_id}")
     fun getMovieDetails(
@@ -54,5 +54,5 @@ interface ApiInterface {
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Call<TvShowsResponse>
+    ): Call<TvShows>
 }

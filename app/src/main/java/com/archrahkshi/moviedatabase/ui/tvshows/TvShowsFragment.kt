@@ -8,10 +8,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
-import com.archrahkshi.moviedatabase.data.TvShowsResponse
+import com.archrahkshi.moviedatabase.data.TvShows
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
 import com.archrahkshi.moviedatabase.network.ApiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
+import com.archrahkshi.moviedatabase.ui.ifSuccessful
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import retrofit2.Call
@@ -40,15 +41,12 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         ApiClient.getPopularTvShows().enqueue(
-            object : Callback<TvShowsResponse> {
-                override fun onResponse(
-                    call: Call<TvShowsResponse>,
-                    response: Response<TvShowsResponse>
-                ) {
-                    if (response.isSuccessful && response.body()?.results != null) {
+            object : Callback<TvShows> {
+                override fun onResponse(call: Call<TvShows>, response: Response<TvShows>) {
+                    response.ifSuccessful {
                         binding.tvShowsRecyclerView.adapter = adapter.apply {
                             addAll(
-                                response.body()!!.results!!.filter {
+                                results!!.filter {
                                     it.name != null && it.posterPath != null
                                 }.map { TvShowItem(it, ::openTvShowDetails) }
                             )
@@ -56,7 +54,7 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
                     }
                 }
 
-                override fun onFailure(call: Call<TvShowsResponse>, t: Throwable) {
+                override fun onFailure(call: Call<TvShows>, t: Throwable) {
                     e(t)
                 }
             }

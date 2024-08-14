@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.archrahkshi.moviedatabase.data.MoviesResponse
+import com.archrahkshi.moviedatabase.data.Movies
 import com.archrahkshi.moviedatabase.databinding.FragmentWatchlistBinding
 import com.archrahkshi.moviedatabase.network.ApiClient
+import com.archrahkshi.moviedatabase.ui.ifSuccessful
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import retrofit2.Call
@@ -44,21 +45,19 @@ class WatchlistFragment : Fragment() {
         binding.moviesRecyclerView.adapter = adapter.apply { addAll(listOf()) }
 
         ApiClient.getPopularMovies().enqueue(
-            object : Callback<MoviesResponse> {
+            object : Callback<Movies> {
                 override fun onResponse(
-                    call: Call<MoviesResponse>,
-                    response: Response<MoviesResponse>
+                    call: Call<Movies>,
+                    response: Response<Movies>
                 ) {
-                    if (response.isSuccessful) {
+                    response.ifSuccessful {
                         binding.moviesRecyclerView.adapter = adapter.apply {
-                            addAll(
-                                response.body()!!.results.map { MoviePreviewItem(it) {} }
-                            )
+                            addAll(results.map { MoviePreviewItem(it) {} })
                         }
                     }
                 }
 
-                override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                override fun onFailure(call: Call<Movies>, t: Throwable) {
                     e(t)
                 }
             }
