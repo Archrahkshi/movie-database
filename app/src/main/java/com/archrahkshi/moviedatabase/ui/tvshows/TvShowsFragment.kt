@@ -45,10 +45,10 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
                     call: Call<TvShowsResponse>,
                     response: Response<TvShowsResponse>
                 ) {
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful && response.body()?.results != null) {
                         binding.tvShowsRecyclerView.adapter = adapter.apply {
                             addAll(
-                                response.body()!!.results.map {
+                                response.body()!!.results!!.map {
                                     TvShowItem(it, ::openTvShowDetails)
                                 }
                             )

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.databinding.SearchFragmentBinding
-import com.archrahkshi.moviedatabase.ui.feed.FeedFragment.Companion.KEY_SEARCH
+import com.archrahkshi.moviedatabase.ui.KEY_SEARCH
 
 class SearchFragment : Fragment(R.layout.search_fragment) {
 

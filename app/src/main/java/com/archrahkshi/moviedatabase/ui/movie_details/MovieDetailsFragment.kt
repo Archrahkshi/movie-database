@@ -11,7 +11,7 @@ import com.archrahkshi.moviedatabase.data.MovieDetails
 import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
 import com.archrahkshi.moviedatabase.network.ApiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
-import com.archrahkshi.moviedatabase.ui.feed.FeedFragment.Companion.KEY_MOVIE_ID
+import com.archrahkshi.moviedatabase.ui.feed.KEY_MOVIE_ID
 import com.archrahkshi.moviedatabase.ui.loadFromUrl
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -45,9 +45,13 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
                                     getString(R.string.imdb_rating, voteAverage)
                                 movieDescription.text = overview
                                 renderCredits()
-                                movieStudio.text = productionCompanies.joinToString { it.name }
-                                movieGenre.text = genres.joinToString { it.name }
-                                movieYear.text = releaseDate.substringBefore('-')
+                                movieStudio.text = productionCompanies?.joinToString {
+                                    it.name.orEmpty()
+                                }.orEmpty()
+                                movieGenre.text =
+                                    genres?.joinToString { it.name.orEmpty() }.orEmpty()
+                                movieYear.text =
+                                    releaseDate?.substringBefore('-').orEmpty()
                             }
                         }
                     }

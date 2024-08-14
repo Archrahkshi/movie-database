@@ -8,9 +8,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.viewbinding.BindableItem
 
-class MainCardContainer(
-    @StringRes
-    private val title: Int,
+class MovieCardContainer(
+    @StringRes private val title: Int,
     private val items: List<BindableItem<*>>
 ) : BindableItem<ItemCardBinding>() {
 
@@ -21,5 +20,5 @@ class MainCardContainer(
         view.itemsContainer.adapter = GroupAdapter<GroupieViewHolder>().apply { addAll(items) }
     }
 
-    override fun initializeViewBinding(p0: View): ItemCardBinding = ItemCardBinding.bind(p0)
+    override fun initializeViewBinding(view: View): ItemCardBinding = ItemCardBinding.bind(view)
 }
