@@ -6,6 +6,7 @@ import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.databinding.ItemCardBinding
 import com.archrahkshi.moviedatabase.ui.loadFromPath
+import com.archrahkshi.moviedatabase.ui.toStars
 import com.xwray.groupie.viewbinding.BindableItem
 
 class MovieItem(
@@ -16,8 +17,7 @@ class MovieItem(
         with(viewBinding) {
             moviePoster.loadFromPath(content.posterPath!!, POSTER_WIDTH)
             movieTitle.text = content.title!!
-            // content.voteAverage is 0..10, but rating in RatingBar is 0..5 stars
-            movieRating.rating = content.voteAverage / 2
+            movieRating.rating = content.voteAverage.toStars()
             movieCard.setOnClickListener { onClick(content) }
         }
     }

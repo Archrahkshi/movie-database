@@ -24,3 +24,6 @@ internal fun EditText.afterTextChanged(action: (Editable?) -> Unit) =
 internal fun ImageView.loadFromPath(url: String, width: Int) {
     Picasso.get().load("${IMAGE_BASE_URL}w$width/$url").into(this)
 }
+
+// voteAverage from API is 0..10, but rating in RatingBar is 0..5 stars
+internal fun Float.toStars() = this / 2

@@ -6,6 +6,7 @@ import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.ItemTvShowBinding
 import com.archrahkshi.moviedatabase.ui.loadFromPath
+import com.archrahkshi.moviedatabase.ui.toStars
 import com.xwray.groupie.viewbinding.BindableItem
 
 class TvShowItem(
@@ -19,8 +20,7 @@ class TvShowItem(
         with(viewBinding) {
             tvShowPreview.loadFromPath(content.posterPath!!, BACKDROP_WIDTH)
             tvShowTitle.text = content.name!!
-            // content.voteAverage is 0..10, but rating in RatingBar is 0..5 stars
-            tvShowRating.rating = content.voteAverage / 2
+            tvShowRating.rating = content.voteAverage.toStars()
             itemTvShow.setOnClickListener { onClick(content) }
         }
     }
