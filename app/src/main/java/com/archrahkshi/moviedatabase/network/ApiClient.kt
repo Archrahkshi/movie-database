@@ -29,11 +29,11 @@ object ApiClient {
         ).build().create<ApiInterface>()
     }
 
+    fun getNowPlayingMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
+        apiClient.getNowPlayingMovies(API_KEY, language, page, region)
+
     fun getPopularMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
         apiClient.getPopularMovies(API_KEY, language, page, region)
-
-    fun getTopRatedMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
-        apiClient.getTopRatedMovies(API_KEY, language, page, region)
 
     fun getUpcomingMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
         apiClient.getUpcomingMovies(API_KEY, language, page, region)

@@ -10,16 +10,16 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiInterface {
-    @GET("movie/popular")
-    fun getPopularMovies(
+    @GET("movie/now_playing")
+    fun getNowPlayingMovies(
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: Int,
         @Query("region") region: String
     ): Call<MoviesResponse>
 
-    @GET("movie/top_rated")
-    fun getTopRatedMovies(
+    @GET("movie/popular")
+    fun getPopularMovies(
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: Int,
