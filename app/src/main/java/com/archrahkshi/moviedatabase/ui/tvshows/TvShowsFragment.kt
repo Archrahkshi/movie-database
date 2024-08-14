@@ -48,9 +48,9 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
                     if (response.isSuccessful && response.body()?.results != null) {
                         binding.tvShowsRecyclerView.adapter = adapter.apply {
                             addAll(
-                                response.body()!!.results!!.map {
-                                    TvShowItem(it, ::openTvShowDetails)
-                                }
+                                response.body()!!.results!!.filter {
+                                    it.name != null && it.posterPath != null
+                                }.map { TvShowItem(it, ::openTvShowDetails) }
                             )
                         }
                     }

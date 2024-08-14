@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.archrahkshi.moviedatabase.BuildConfig.IMAGE_BASE_URL
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.MovieCredits
 import com.archrahkshi.moviedatabase.data.MovieDetails
@@ -12,7 +11,7 @@ import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
 import com.archrahkshi.moviedatabase.network.ApiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.feed.KEY_MOVIE_ID
-import com.archrahkshi.moviedatabase.ui.loadFromUrl
+import com.archrahkshi.moviedatabase.ui.loadFromPath
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import retrofit2.Call
@@ -39,8 +38,8 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
                     if (response.isSuccessful) {
                         response.body()?.run {
                             with(binding) {
-                                movieBackdrop.loadFromUrl("$IMAGE_BASE_URL$backdropPath")
-                                movieTitleDetailed.text = title
+                                movieBackdrop.loadFromPath((backdropPath ?: posterPath!!))
+                                movieTitleDetailed.text = title!!
                                 movieRatingDetailed.text =
                                     getString(R.string.imdb_rating, voteAverage)
                                 movieDescription.text = overview
@@ -73,7 +72,9 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
                 ) {
                     if (response.isSuccessful) {
                         binding.movieCredits.adapter = creditsAdapter.apply {
-                            addAll(response.body()!!.cast.map(::ActorItem))
+                            addAll(
+                                response.body()!!.cast.filter { it.name != null }.map(::ActorItem)
+                            )
                         }
                     }
                 }

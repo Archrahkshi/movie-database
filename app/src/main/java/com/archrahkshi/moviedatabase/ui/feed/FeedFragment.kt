@@ -67,7 +67,7 @@ class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
                                 MovieCardContainer(
                                     title,
                                     response.body()!!.results.filter {
-                                        it.title != null && it.backdropPath != null
+                                        it.title != null && it.posterPath != null
                                     }.map {
                                         MovieItem(it, ::openMovieDetails)
                                     }

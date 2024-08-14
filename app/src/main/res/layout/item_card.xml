@@ -1,57 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:background="@color/blueDark">
+    android:id="@+id/movieCard"
+    android:layout_width="wrap_content"
+    android:layout_height="221dp"
+    android:layout_marginBottom="@dimen/material_margin_normal"
+    android:orientation="vertical"
+    tools:background="@color/blueDark"
+    tools:ignore="RtlHardcoded">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/moviePoster"
+        android:layout_width="@dimen/movie_card_poster_width"
+        android:layout_height="@dimen/movie_card_poster_height"
+        android:layout_marginEnd="@dimen/material_margin_small"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
+        app:strokeColor="@null"
+        tools:src="@drawable/ic_avatar" />
 
     <TextView
-        android:id="@+id/movieCardTitle"
-        android:layout_width="0dp"
+        android:id="@+id/movieTitle"
+        android:layout_width="@dimen/movie_card_text_width"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/material_margin_normal"
-        android:layout_marginEnd="@dimen/material_margin_normal"
+        android:layout_marginTop="@dimen/material_margin_tiny"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textColor="@color/white"
-        android:textSize="@dimen/subtitle_text_size"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/movieCardMore"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Заголовок карточки"
+        android:textSize="12sp"
+        tools:text="Мир дикого запада"
         tools:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/movieCardMore"
+    <RatingBar
+        android:id="@+id/movieRating"
+        style="@android:style/Widget.Material.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/material_margin_normal"
-        android:text="@string/more"
-        android:textColor="@color/transparent_grey"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/movieCardTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/movieCardTitle"
-        app:layout_constraintTop_toTopOf="@id/movieCardTitle"
-        tools:text="@string/more"
-        tools:textColor="@color/white" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/items_container"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/material_margin_small"
-        android:clipToPadding="false"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/material_margin_normal"
-        android:paddingEnd="@dimen/material_margin_small"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieCardTitle"
-        tools:ignore="RtlSymmetry"
-        tools:itemCount="4"
-        tools:listitem="@layout/item_with_text" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:numStars="5"
+        android:stepSize=".1" />
+</LinearLayout>

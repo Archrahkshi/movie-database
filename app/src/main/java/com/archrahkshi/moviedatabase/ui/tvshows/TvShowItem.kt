@@ -1,11 +1,10 @@
 package com.archrahkshi.moviedatabase.ui.tvshows
 
 import android.view.View
-import com.archrahkshi.moviedatabase.BuildConfig.IMAGE_BASE_URL
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.ItemTvShowBinding
-import com.archrahkshi.moviedatabase.ui.loadFromUrl
+import com.archrahkshi.moviedatabase.ui.loadFromPath
 import com.xwray.groupie.viewbinding.BindableItem
 
 class TvShowItem(
@@ -17,11 +16,11 @@ class TvShowItem(
 
     override fun bind(viewBinding: ItemTvShowBinding, position: Int) {
         with(viewBinding) {
-            tvShowTitle.text = content.name
+            tvShowPreview.loadFromPath(content.posterPath!!)
+            tvShowTitle.text = content.name!!
             // content.voteAverage is 0..10, but rating in RatingBar is 0..5 stars
             tvShowRating.rating = content.voteAverage / 2
             itemTvShow.setOnClickListener { onClick(content) }
-            tvShowPreview.loadFromUrl("$IMAGE_BASE_URL${content.posterPath}")
         }
     }
 
