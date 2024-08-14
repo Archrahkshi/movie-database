@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.archrahkshi.moviedatabase.data.Movies
-import com.archrahkshi.moviedatabase.databinding.FragmentWatchlistBinding
+import com.archrahkshi.moviedatabase.databinding.WatchlistFragmentBinding
 import com.archrahkshi.moviedatabase.network.ApiClient
 import com.archrahkshi.moviedatabase.ui.ifSuccessful
 import com.xwray.groupie.GroupAdapter
@@ -19,7 +19,7 @@ import timber.log.Timber.Forest.e
 
 class WatchlistFragment : Fragment() {
 
-    private var _binding: FragmentWatchlistBinding? = null
+    private var _binding: WatchlistFragmentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -34,7 +34,7 @@ class WatchlistFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWatchlistBinding.inflate(inflater, container, false)
+        _binding = WatchlistFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
