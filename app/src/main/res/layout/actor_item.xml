@@ -9,8 +9,8 @@
     tools:background="@color/blueDark">
 
     <FrameLayout
-        android:layout_width="80dp"
-        android:layout_height="80dp">
+        android:layout_width="@dimen/actor_card_avatar_diameter"
+        android:layout_height="@dimen/actor_card_avatar_diameter">
 
         <ImageView
             android:id="@+id/actorImagePlaceholder"
@@ -27,8 +27,7 @@
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Circular"
             app:strokeColor="@null"
-            tools:srcCompat="@tools:sample/avatars"
-            tools:visibility="invisible" />
+            tools:srcCompat="@tools:sample/avatars" />
     </FrameLayout>
 
     <TextView

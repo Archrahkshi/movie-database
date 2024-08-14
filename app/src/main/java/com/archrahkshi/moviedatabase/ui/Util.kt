@@ -21,6 +21,6 @@ internal val navOptions = navOptions {
 internal fun EditText.afterTextChanged(action: (Editable?) -> Unit) =
     addTextChangedListener(afterTextChanged = action)
 
-internal fun ImageView.loadFromPath(url: String) {
-    Picasso.get().load("$IMAGE_BASE_URL$url").into(this)
+internal fun ImageView.loadFromPath(url: String, width: Int) {
+    Picasso.get().load("${IMAGE_BASE_URL}w$width/$url").into(this)
 }

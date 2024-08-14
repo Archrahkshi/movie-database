@@ -25,12 +25,14 @@
             android:layout_height="match_parent"
             android:layout_marginTop="320dp"
             android:background="@color/blueDark"
-            android:padding="@dimen/material_margin_normal">
+            android:paddingTop="@dimen/material_margin_normal"
+            android:paddingBottom="@dimen/material_margin_normal">
 
             <TextView
                 android:id="@+id/movieTitleDetailed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/material_margin_normal"
                 android:textColor="@color/white"
                 android:textSize="@dimen/title_text_size"
                 android:textStyle="bold"
@@ -44,6 +46,7 @@
                 android:id="@+id/movieLike"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/material_margin_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/baseline_favorite_border_32" />
@@ -52,6 +55,7 @@
                 android:id="@+id/movieRatingDetailed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/material_margin_normal"
                 android:layout_marginTop="@dimen/material_margin_small"
                 android:gravity="center_vertical"
                 android:textColor="@color/grey"
@@ -64,6 +68,7 @@
                 android:id="@+id/movieDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/material_margin_normal"
                 android:layout_marginTop="@dimen/material_margin_small"
                 android:textColor="@color/grey"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +79,7 @@
                 android:id="@+id/movieCreditsHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/material_margin_normal"
                 android:layout_marginTop="@dimen/material_margin_small"
                 android:text="@string/credits"
                 android:textColor="@color/white"
@@ -87,7 +93,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/material_margin_tiny"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingStart="@dimen/material_margin_normal"
+                android:paddingEnd="@dimen/material_margin_normal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieCreditsHeader"
@@ -99,7 +108,9 @@
             <TableLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/material_margin_normal"
                 android:layout_marginTop="@dimen/material_margin_small"
+                android:layout_marginEnd="@dimen/material_margin_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieCredits">

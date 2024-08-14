@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.MovieCredits
 import com.archrahkshi.moviedatabase.data.MovieDetails
@@ -38,7 +39,10 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
                     if (response.isSuccessful) {
                         response.body()?.run {
                             with(binding) {
-                                movieBackdrop.loadFromPath((backdropPath ?: posterPath!!))
+                                movieBackdrop.loadFromPath(
+                                    backdropPath ?: posterPath!!,
+                                    BACKDROP_WIDTH
+                                )
                                 movieTitleDetailed.text = title!!
                                 movieRatingDetailed.text =
                                     getString(R.string.imdb_rating, voteAverage)

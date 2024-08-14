@@ -1,6 +1,7 @@
 package com.archrahkshi.moviedatabase.ui.feed
 
 import android.view.View
+import com.archrahkshi.moviedatabase.BuildConfig.POSTER_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.databinding.ItemCardBinding
@@ -13,7 +14,7 @@ class MovieItem(
 ) : BindableItem<ItemCardBinding>() {
     override fun bind(viewBinding: ItemCardBinding, position: Int) {
         with(viewBinding) {
-            moviePoster.loadFromPath(content.posterPath!!)
+            moviePoster.loadFromPath(content.posterPath!!, POSTER_WIDTH)
             movieTitle.text = content.title!!
             // content.voteAverage is 0..10, but rating in RatingBar is 0..5 stars
             movieRating.rating = content.voteAverage / 2

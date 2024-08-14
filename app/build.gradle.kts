@@ -26,7 +26,10 @@ android {
             keystoreProperties.getProperty("THE_MOVIE_DATABASE_API")
         )
         buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
-        buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/w500/\"")
+        buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/\"")
+        buildConfigField("int", "POSTER_WIDTH", "500")
+        buildConfigField("int", "BACKDROP_WIDTH", "1280")
+        buildConfigField("int", "PROFILE_WIDTH", "185")
     }
 
     buildTypes {
