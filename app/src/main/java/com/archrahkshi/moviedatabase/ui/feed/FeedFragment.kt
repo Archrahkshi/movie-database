@@ -82,6 +82,11 @@ class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
         )
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter.clear()
+    }
+
     private fun openMovieDetails(movie: Movie) {
         findNavController().navigate(
             R.id.movie_details_fragment,

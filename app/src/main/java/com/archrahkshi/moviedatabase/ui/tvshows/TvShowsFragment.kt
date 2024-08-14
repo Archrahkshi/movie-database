@@ -23,8 +23,6 @@ import timber.log.Timber.Forest.e
 private const val KEY_ID = "id"
 
 class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
-    private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
-
     private val options = navOptions {
         anim {
             enter = R.anim.slide_in_right
@@ -44,13 +42,14 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
             object : Callback<TvShows> {
                 override fun onResponse(call: Call<TvShows>, response: Response<TvShows>) {
                     response.ifSuccessful {
-                        binding.tvShowsRecyclerView.adapter = adapter.apply {
-                            addAll(
-                                results!!.filter {
-                                    it.name != null && it.posterPath != null
-                                }.map { TvShowItem(it, ::openTvShowDetails) }
-                            )
-                        }
+                        binding.tvShowsRecyclerView.adapter =
+                            GroupAdapter<GroupieViewHolder>().apply {
+                                addAll(
+                                    results!!.filter {
+                                        it.name != null && it.posterPath != null
+                                    }.map { TvShowItem(it, ::openTvShowDetails) }
+                                )
+                            }
                     }
                 }
 

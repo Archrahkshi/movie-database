@@ -23,7 +23,6 @@ import timber.log.Timber.Forest.e
 
 class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     private var movieId = 0
-    private val creditsAdapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
         MovieDetailsFragmentBinding.inflate(inflater, container, false)
@@ -71,7 +70,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
                     response: Response<MovieCredits>
                 ) {
                     response.ifSuccessful {
-                        binding.movieCredits.adapter = creditsAdapter.apply {
+                        binding.movieCredits.adapter = GroupAdapter<GroupieViewHolder>().apply {
                             addAll(cast.filter { it.name != null }.map(::ActorItem))
                         }
                     }
