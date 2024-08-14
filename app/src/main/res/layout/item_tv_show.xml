@@ -11,7 +11,7 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/tv_show_preview"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/tv_show_preview_height"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
