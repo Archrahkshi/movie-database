@@ -42,14 +42,14 @@
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Отель Гранд Будапешт" />
 
-            <ImageView
+            <CheckBox
                 android:id="@+id/movieLike"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginEnd="@dimen/material_margin_normal"
+                android:button="@drawable/like_checkbox"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_favorite_border_32" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/movieRatingDetailed"
