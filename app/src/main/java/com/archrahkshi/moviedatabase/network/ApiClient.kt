@@ -13,6 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level.BODY
 import retrofit2.Retrofit
 import retrofit2.create
+import java.util.Locale
 
 object ApiClient {
     @OptIn(ExperimentalSerializationApi::class)
@@ -29,24 +30,33 @@ object ApiClient {
         ).build().create<ApiInterface>()
     }
 
-    fun getNowPlayingMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
-        apiClient.getNowPlayingMovies(API_KEY, language, page, region)
+    fun getNowPlayingMovies(
+        language: String = Locale.getDefault().language,
+        page: Int = 1,
+        region: String = Locale.getDefault().country
+    ) = apiClient.getNowPlayingMovies(API_KEY, language, page, region)
 
-    fun getPopularMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
-        apiClient.getPopularMovies(API_KEY, language, page, region)
+    fun getPopularMovies(
+        language: String = Locale.getDefault().language,
+        page: Int = 1,
+        region: String = Locale.getDefault().country
+    ) = apiClient.getPopularMovies(API_KEY, language, page, region)
 
-    fun getUpcomingMovies(language: String = "ru-RU", page: Int = 1, region: String = "RU") =
-        apiClient.getUpcomingMovies(API_KEY, language, page, region)
+    fun getUpcomingMovies(
+        language: String = Locale.getDefault().language,
+        page: Int = 1,
+        region: String = Locale.getDefault().country
+    ) = apiClient.getUpcomingMovies(API_KEY, language, page, region)
 
     fun getMovieDetails(
         movieId: Int,
         appendToResponse: String? = null,
-        language: String = "ru-RU"
+        language: String = Locale.getDefault().language
     ) = apiClient.getMovieDetails(movieId, API_KEY, appendToResponse, language)
 
-    fun getMovieCredits(movieId: Int, language: String = "ru-RU") =
+    fun getMovieCredits(movieId: Int, language: String = Locale.getDefault().language) =
         apiClient.getMovieCredits(movieId, API_KEY, language)
 
-    fun getPopularTvShows(language: String = "ru-RU", page: Int = 1) =
+    fun getPopularTvShows(language: String = Locale.getDefault().language, page: Int = 1) =
         apiClient.getPopularTvShows(API_KEY, language, page)
 }
