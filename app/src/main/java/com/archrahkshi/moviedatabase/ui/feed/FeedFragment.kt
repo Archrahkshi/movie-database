@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
@@ -42,18 +41,18 @@ class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
     }
 
     private fun renderMovies(which: MovieList) {
-        @StringRes val title: Int
+        val title: String
         when (which) {
             NOW_PLAYING -> {
-                title = R.string.recommended
+                title = getString(R.string.recommended)
                 ApiClient.getNowPlayingMovies()
             }
             POPULAR     -> {
-                title = R.string.popular
+                title = getString(R.string.popular)
                 ApiClient.getPopularMovies()
             }
             UPCOMING    -> {
-                title = R.string.upcoming
+                title = getString(R.string.upcoming)
                 ApiClient.getUpcomingMovies()
             }
         }.enqueue(
