@@ -13,17 +13,16 @@ class TvShowItem(
     private val content: TvShow,
     private val onClick: (tvShow: TvShow) -> Unit
 ) : BindableItem<ItemTvShowBinding>() {
-
-    override fun getLayout() = R.layout.item_tv_show
-
     override fun bind(viewBinding: ItemTvShowBinding, position: Int) {
         with(viewBinding) {
-            tvShowPreview.loadFromPath(content.posterPath!!, BACKDROP_WIDTH)
-            tvShowTitle.text = content.name!!
+            content.posterPath?.let { tvShowPreview.loadFromPath(it, BACKDROP_WIDTH) }
+            tvShowTitle.text = content.name
             tvShowRating.rating = content.voteAverage.toStars()
             itemTvShow.setOnClickListener { onClick(content) }
         }
     }
+
+    override fun getLayout() = R.layout.item_tv_show
 
     override fun initializeViewBinding(view: View) = ItemTvShowBinding.bind(view)
 }

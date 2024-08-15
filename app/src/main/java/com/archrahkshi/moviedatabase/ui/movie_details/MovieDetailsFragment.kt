@@ -27,10 +27,10 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
         apiClient.getMovieDetails(movieId).then {
             with(binding) {
                 movieBackdrop.loadFromPath(
-                    backdropPath ?: posterPath!!,
+                    backdropPath ?: posterPath ?: "",
                     BACKDROP_WIDTH
                 )
-                movieTitleDetailed.text = title!!
+                movieTitleDetailed.text = title
                 movieRatingDetailed.text = getString(R.string.imdb_rating, voteAverage)
                 movieDescription.text = overview
                 renderCredits()

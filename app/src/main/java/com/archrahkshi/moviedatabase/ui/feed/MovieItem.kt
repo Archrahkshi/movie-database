@@ -15,8 +15,8 @@ class MovieItem(
 ) : BindableItem<ItemCardBinding>() {
     override fun bind(viewBinding: ItemCardBinding, position: Int) {
         with(viewBinding) {
-            moviePoster.loadFromPath(content.posterPath!!, POSTER_WIDTH)
-            movieTitle.text = content.title!!
+            content.posterPath?.let { moviePoster.loadFromPath(it, POSTER_WIDTH) }
+            movieTitle.text = content.title
             movieRating.rating = content.voteAverage.toStars()
             movieCard.setOnClickListener { onClick(content) }
         }

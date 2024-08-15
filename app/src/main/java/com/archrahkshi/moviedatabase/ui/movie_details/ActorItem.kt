@@ -12,7 +12,7 @@ class ActorItem(private val content: Actor) : BindableItem<ActorItemBinding>() {
     override fun bind(viewBinding: ActorItemBinding, position: Int) {
         with(viewBinding) {
             content.profilePath?.let { actorImage.loadFromPath(it, PROFILE_WIDTH) }
-            actorName.text = content.name!!
+            actorName.text = content.name
         }
     }
 
