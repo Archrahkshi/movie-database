@@ -10,7 +10,7 @@ import androidx.navigation.navOptions
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
-import com.archrahkshi.moviedatabase.network.ApiClient
+import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
@@ -33,7 +33,7 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ApiClient.getPopularTvShows().then {
+        apiClient.getPopularTvShows().then {
             binding.tvShowsRecyclerView.adapter =
                 GroupAdapter<GroupieViewHolder>().apply {
                     addAll(

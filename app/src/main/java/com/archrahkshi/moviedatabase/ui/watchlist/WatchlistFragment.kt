@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.archrahkshi.moviedatabase.databinding.WatchlistFragmentBinding
-import com.archrahkshi.moviedatabase.network.ApiClient
+import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -34,7 +34,7 @@ class WatchlistFragment : Fragment() {
 
         binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, 4)
 
-        ApiClient.getPopularMovies().then {
+        apiClient.getPopularMovies().then {
             binding.moviesRecyclerView.adapter =
                 GroupAdapter<GroupieViewHolder>().apply {
                     addAll(results.map { MoviePreviewItem(it) {} })

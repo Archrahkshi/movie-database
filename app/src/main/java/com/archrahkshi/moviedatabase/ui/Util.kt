@@ -12,6 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber.Forest.e
+import java.util.Locale
 
 internal val navOptions = navOptions {
     anim {
@@ -53,3 +54,7 @@ internal fun <T> Call<T>.then(action: T.() -> Unit) {
         }
     )
 }
+
+internal fun getDefaultLanguage() = Locale.getDefault().language
+
+internal fun getDefaultCountry() = Locale.getDefault().country

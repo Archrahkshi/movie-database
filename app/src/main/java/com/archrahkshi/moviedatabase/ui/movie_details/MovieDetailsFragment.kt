@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
-import com.archrahkshi.moviedatabase.network.ApiClient
+import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.feed.KEY_MOVIE_ID
 import com.archrahkshi.moviedatabase.ui.loadFromPath
@@ -24,7 +24,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieId = requireArguments().getInt(KEY_MOVIE_ID)
-        ApiClient.getMovieDetails(movieId).then {
+        apiClient.getMovieDetails(movieId).then {
             with(binding) {
                 movieBackdrop.loadFromPath(
                     backdropPath ?: posterPath!!,
@@ -44,7 +44,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     }
 
     private fun renderCredits() {
-        ApiClient.getMovieCredits(movieId).then {
+        apiClient.getMovieCredits(movieId).then {
             binding.movieCredits.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 addAll(cast.filter { it.name != null }.map(::ActorItem))
             }

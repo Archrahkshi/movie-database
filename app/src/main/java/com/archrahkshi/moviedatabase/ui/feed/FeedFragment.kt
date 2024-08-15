@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
-import com.archrahkshi.moviedatabase.network.ApiClient
+import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragmentWithSearch
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
@@ -41,15 +41,15 @@ class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
         when (which) {
             NOW_PLAYING -> {
                 title = getString(R.string.recommended)
-                ApiClient.getNowPlayingMovies()
+                apiClient.getNowPlayingMovies()
             }
             POPULAR     -> {
                 title = getString(R.string.popular)
-                ApiClient.getPopularMovies()
+                apiClient.getPopularMovies()
             }
             UPCOMING    -> {
                 title = getString(R.string.upcoming)
-                ApiClient.getUpcomingMovies()
+                apiClient.getUpcomingMovies()
             }
         }.then {
             binding.moviesRecyclerView.adapter = adapter.apply {
