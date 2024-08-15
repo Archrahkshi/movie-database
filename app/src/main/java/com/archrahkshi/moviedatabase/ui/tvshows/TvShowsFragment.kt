@@ -4,33 +4,52 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.archrahkshi.moviedatabase.data.MockRepository
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
+import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
+import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
+import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
+const val KEY_TV_SHOW_ID = "tvShowId"
+
 class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
+    private val options = navOptions {
+        anim {
+            enter = R.anim.slide_in_right
+            exit = R.anim.slide_out_left
+            popEnter = R.anim.slide_in_left
+            popExit = R.anim.slide_out_right
+        }
+    }
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
         TvShowsFragmentBinding.inflate(inflater, container, false)
 
-    private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvShowsRecyclerView.adapter = adapter.apply {
-            add(
-                TvShowItem(
-                    TvShow(
-                        "A TV show with a very very very very long title",
-                        10f,
-                        "https://i.ytimg.com/vi/mkD5Nsr4vfc/maxresdefault.jpg"
+        apiClient.getPopularTvShows().then {
+            binding.tvShowsRecyclerView.adapter =
+                GroupAdapter<GroupieViewHolder>().apply {
+                    addAll(
+                        results!!.filter {
+                            it.name != null && it.posterPath != null
+                        }.map { TvShowItem(it, ::openTvShowDetails) }
                     )
-                ) {}
-            )
-            addAll(MockRepository.getTvShows().map { TvShowItem(it) {} })
+                }
         }
+    }
+
+    private fun openTvShowDetails(tvShow: TvShow) {
+        findNavController().navigate(
+            R.id.tv_show_details_fragment,
+            bundleOf(KEY_TV_SHOW_ID to tvShow.id),
+            options
+        )
     }
 }

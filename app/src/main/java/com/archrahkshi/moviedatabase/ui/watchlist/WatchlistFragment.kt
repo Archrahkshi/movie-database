@@ -6,29 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.archrahkshi.moviedatabase.data.MockRepository
-import com.archrahkshi.moviedatabase.databinding.FragmentWatchlistBinding
+import com.archrahkshi.moviedatabase.databinding.WatchlistFragmentBinding
+import com.archrahkshi.moviedatabase.network.apiClient
+import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 
 class WatchlistFragment : Fragment() {
 
-    private var _binding: FragmentWatchlistBinding? = null
+    private var _binding: WatchlistFragmentBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-    private val adapter by lazy {
-        GroupAdapter<GroupieViewHolder>()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWatchlistBinding.inflate(inflater, container, false)
+        _binding = WatchlistFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,16 +33,13 @@ class WatchlistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, 4)
-        binding.moviesRecyclerView.adapter = adapter.apply { addAll(listOf()) }
 
-        val moviesList =
-            MockRepository.getMovies().map {
-                MoviePreviewItem(
-                    it
-                ) { movie -> }
-            }.toList()
-
-        binding.moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
+        apiClient.getPopularMovies().then {
+            binding.moviesRecyclerView.adapter =
+                GroupAdapter<GroupieViewHolder>().apply {
+                    addAll(results.map { MoviePreviewItem(it) {} })
+                }
+        }
     }
 
     override fun onDestroyView() {

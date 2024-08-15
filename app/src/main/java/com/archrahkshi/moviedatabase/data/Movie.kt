@@ -1,9 +1,21 @@
 package com.archrahkshi.moviedatabase.data
 
-class Movie(
-    var title: String? = "",
-    var voteAverage: Double = 0.0
-) {
-    val rating: Float
-        get() = voteAverage.div(2).toFloat()
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Movie(
+    val adult: Boolean = true,
+    val backdropPath: String?,
+    val genreIds: List<Int>?,
+    val id: Int?,
+    val originalLanguage: String?,
+    val originalTitle: String?,
+    val overview: String?,
+    val popularity: Float = 0f,
+    val posterPath: String?,
+    val releaseDate: String?,
+    val title: String?,
+    val video: Boolean = true,
+    val voteAverage: Float = 0f,
+    val voteCount: Int = 0
+)

@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
-import com.archrahkshi.moviedatabase.databinding.FragmentSearchBinding
-import com.archrahkshi.moviedatabase.ui.feed.FeedFragment.Companion.KEY_SEARCH
+import com.archrahkshi.moviedatabase.databinding.SearchFragmentBinding
+import com.archrahkshi.moviedatabase.ui.KEY_SEARCH
 
-class SearchFragment : Fragment(R.layout.fragment_search) {
+class SearchFragment : Fragment(R.layout.search_fragment) {
 
-    private var _binding: FragmentSearchBinding? = null
+    private var _binding: SearchFragmentBinding? = null
     private var _searchBinding: FeedHeaderBinding? = null
 
     // This property is only valid between onCreateView and
@@ -25,7 +25,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = SearchFragmentBinding.inflate(inflater, container, false)
         _searchBinding = FeedHeaderBinding.bind(binding.root)
         return binding.root
     }

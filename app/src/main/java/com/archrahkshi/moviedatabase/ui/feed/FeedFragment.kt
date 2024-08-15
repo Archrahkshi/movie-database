@@ -2,112 +2,81 @@ package com.archrahkshi.moviedatabase.ui.feed
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.MockRepository
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
-import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
-import com.archrahkshi.moviedatabase.ui.afterTextChanged
+import com.archrahkshi.moviedatabase.network.apiClient
+import com.archrahkshi.moviedatabase.ui.BaseFragmentWithSearch
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.UPCOMING
+import com.archrahkshi.moviedatabase.ui.navOptions
+import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import timber.log.Timber
 
-class FeedFragment : Fragment(R.layout.feed_fragment) {
+const val KEY_MOVIE_ID = "movieId"
 
-    private var _binding: FeedFragmentBinding? = null
-    private var _searchBinding: FeedHeaderBinding? = null
+private enum class MovieList { NOW_PLAYING, POPULAR, UPCOMING }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-    private val searchBinding get() = _searchBinding!!
+class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
+    private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
 
-    private val adapter by lazy {
-        GroupAdapter<GroupieViewHolder>()
-    }
-
-    private val options = navOptions {
-        anim {
-            enter = R.anim.slide_in_right
-            exit = R.anim.slide_out_left
-            popEnter = R.anim.slide_in_left
-            popExit = R.anim.slide_out_right
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FeedFragmentBinding.inflate(inflater, container, false)
-        _searchBinding = FeedHeaderBinding.bind(binding.root)
-        return binding.root
-    }
+    override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FeedFragmentBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        renderMovies(NOW_PLAYING)
+        renderMovies(POPULAR)
+        renderMovies(UPCOMING)
+    }
 
-
-        searchBinding.searchToolbar.binding.searchEditText.afterTextChanged {
-            Timber.d(it.toString())
-            if (it.toString().length > MIN_LENGTH) {
-                openSearch(it.toString())
+    private fun renderMovies(which: MovieList) {
+        val title: String
+        when (which) {
+            NOW_PLAYING -> {
+                title = getString(R.string.recommended)
+                apiClient.getNowPlayingMovies()
+            }
+            POPULAR     -> {
+                title = getString(R.string.popular)
+                apiClient.getPopularMovies()
+            }
+            UPCOMING    -> {
+                title = getString(R.string.upcoming)
+                apiClient.getUpcomingMovies()
+            }
+        }.then {
+            binding.moviesRecyclerView.adapter = adapter.apply {
+                add(
+                    MovieCardContainer(
+                        title,
+                        results.filter {
+                            it.title != null && it.posterPath != null
+                        }.map {
+                            MovieItem(it, ::openMovieDetails)
+                        }
+                    )
+                )
             }
         }
-
-        // Используя Мок-репозиторий получаем фэйковый список фильмов
-        val moviesList =
-                MockRepository.getMovies().map {
-                    MovieItem(it) { movie ->
-                        openMovieDetails(
-                            movie
-                        )
-                    }
-                }.toList()
-
-
-        binding.moviesRecyclerView.adapter = adapter.apply { addAll(moviesList) }
-
-    }
-
-    private fun openMovieDetails(movie: Movie) {
-        val bundle = Bundle()
-        bundle.putString(KEY_TITLE, movie.title)
-        findNavController().navigate(R.id.movie_details_fragment, bundle, options)
-    }
-
-    private fun openSearch(searchText: String) {
-        val bundle = Bundle()
-        bundle.putString(KEY_SEARCH, searchText)
-        findNavController().navigate(R.id.search_dest, bundle, options)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        searchBinding.searchToolbar.clear()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
-        _searchBinding = null
+        adapter.clear()
     }
 
-    companion object {
-        const val MIN_LENGTH = 3
-        const val KEY_TITLE = "title"
-        const val KEY_SEARCH = "search"
+    private fun openMovieDetails(movie: Movie) {
+        findNavController().navigate(
+            R.id.movie_details_fragment,
+            bundleOf(KEY_MOVIE_ID to movie.id),
+            navOptions
+        )
     }
 }
