@@ -14,7 +14,7 @@ import retrofit2.Response
 import timber.log.Timber.Forest.e
 import java.util.Locale
 
-internal val navOptions = navOptions {
+val navOptions = navOptions {
     anim {
         enter = R.anim.slide_in_right
         exit = R.anim.slide_out_left
@@ -23,15 +23,15 @@ internal val navOptions = navOptions {
     }
 }
 
-internal fun EditText.afterTextChanged(action: (Editable?) -> Unit) =
+fun EditText.afterTextChanged(action: (Editable?) -> Unit) =
     addTextChangedListener(afterTextChanged = action)
 
-internal fun ImageView.loadFromPath(url: String, width: Int) {
-    Picasso.get().load("${IMAGE_BASE_URL}w$width/$url").into(this)
+fun ImageView.loadFromPath(path: String, width: Int) {
+    Picasso.get().load("${IMAGE_BASE_URL}w$width$path").into(this)
 }
 
 // voteAverage from API is 0..10, but rating in RatingBar is 0..5 stars
-internal fun Float.toStars() = this / 2
+fun Float.toStars() = this / 2
 
 private fun <T> Response<T>.ifSuccessful(responseBody: (T) -> Unit) =
     if (isSuccessful && body() != null) {
@@ -41,7 +41,7 @@ private fun <T> Response<T>.ifSuccessful(responseBody: (T) -> Unit) =
         false
     }
 
-internal fun <T> Call<T>.then(action: T.() -> Unit) {
+fun <T> Call<T>.then(action: T.() -> Unit) {
     enqueue(
         object : Callback<T> {
             override fun onResponse(call: Call<T>, response: Response<T>) {
@@ -55,6 +55,6 @@ internal fun <T> Call<T>.then(action: T.() -> Unit) {
     )
 }
 
-internal fun getDefaultLanguage() = Locale.getDefault().language
+fun getDefaultLanguage(): String = Locale.getDefault().toLanguageTag()
 
-internal fun getDefaultCountry() = Locale.getDefault().country
+fun getDefaultCountry(): String = Locale.getDefault().country

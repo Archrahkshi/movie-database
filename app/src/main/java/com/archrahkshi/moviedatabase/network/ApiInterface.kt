@@ -39,24 +39,9 @@ val apiClient by lazy {
 }
 
 interface ApiInterface {
-    @GET("movie/now_playing")
-    fun getNowPlayingMovies(
-        @Query("language") language: String = getDefaultLanguage(),
-        @Query("page") page: Int = 1,
-        @Query("region") region: String = getDefaultCountry(),
-        @Query("api_key") apiKey: String = API_KEY
-    ): Call<Movies>
-
-    @GET("movie/popular")
-    fun getPopularMovies(
-        @Query("language") language: String = getDefaultLanguage(),
-        @Query("page") page: Int = 1,
-        @Query("region") region: String = getDefaultCountry(),
-        @Query("api_key") apiKey: String = API_KEY
-    ): Call<Movies>
-
-    @GET("movie/upcoming")
-    fun getUpcomingMovies(
+    @GET("movie/{movie_list}")
+    fun getMovies(
+        @Path("movie_list") movieList: String,
         @Query("language") language: String = getDefaultLanguage(),
         @Query("page") page: Int = 1,
         @Query("region") region: String = getDefaultCountry(),

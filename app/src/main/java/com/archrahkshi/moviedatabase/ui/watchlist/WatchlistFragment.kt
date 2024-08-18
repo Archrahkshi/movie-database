@@ -34,7 +34,7 @@ class WatchlistFragment : Fragment() {
 
         binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, 4)
 
-        apiClient.getPopularMovies().then {
+        apiClient.getMovies("popular").then {
             binding.moviesRecyclerView.adapter =
                 GroupAdapter<GroupieViewHolder>().apply {
                     addAll(results.map { MoviePreviewItem(it) {} })

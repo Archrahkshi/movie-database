@@ -2,74 +2,105 @@ package com.archrahkshi.moviedatabase.ui.feed
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
+import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.network.apiClient
-import com.archrahkshi.moviedatabase.ui.BaseFragmentWithSearch
-import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
-import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
-import com.archrahkshi.moviedatabase.ui.feed.MovieList.UPCOMING
+import com.archrahkshi.moviedatabase.ui.BaseFragment
+import com.archrahkshi.moviedatabase.ui.afterTextChanged
 import com.archrahkshi.moviedatabase.ui.navOptions
 import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import timber.log.Timber.Forest.d
 
+private const val MIN_LENGTH = 3
+const val KEY_SEARCH = "search"
 const val KEY_MOVIE_ID = "movieId"
 
-private enum class MovieList { NOW_PLAYING, POPULAR, UPCOMING }
+private enum class MovieList(@StringRes val title: Int) {
+    NOW_PLAYING(R.string.recommended),
+    POPULAR(R.string.popular),
+    UPCOMING(R.string.upcoming)
+}
 
-class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
+class FeedFragment : BaseFragment<FeedFragmentBinding>() {
+    private var _searchBinding: FeedHeaderBinding? = null
+    private val searchBinding get() = _searchBinding!!
     private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FeedFragmentBinding.inflate(inflater, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        renderMovies(NOW_PLAYING)
-        renderMovies(POPULAR)
-        renderMovies(UPCOMING)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+        bindHeader()
+        return binding.root
     }
 
-    private fun renderMovies(which: MovieList) {
-        val title: String
-        when (which) {
-            NOW_PLAYING -> {
-                title = getString(R.string.recommended)
-                apiClient.getNowPlayingMovies()
+    private fun bindHeader() {
+        _searchBinding = FeedHeaderBinding.bind(binding.root)
+        requireActivity().addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
+                    inflater.inflate(R.menu.main_menu, menu)
+                }
+
+                override fun onMenuItemSelected(item: MenuItem): Boolean {
+                    TODO("Not yet implemented")
+                }
             }
-            POPULAR     -> {
-                title = getString(R.string.popular)
-                apiClient.getPopularMovies()
+        )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        searchBinding.searchToolbar.binding.searchEditText.afterTextChanged {
+            d(it.toString())
+            if (it.toString().length > MIN_LENGTH) {
+                openSearch(it.toString())
             }
-            UPCOMING    -> {
-                title = getString(R.string.upcoming)
-                apiClient.getUpcomingMovies()
-            }
-        }.then {
+        }
+
+        MovieList.entries.forEach(::renderMovies)
+    }
+
+    private fun openSearch(searchText: String) {
+        findNavController().navigate(
+            R.id.search_dest,
+            bundleOf(KEY_SEARCH to searchText),
+            navOptions
+        )
+    }
+
+    private fun renderMovies(movieList: MovieList) {
+        apiClient.getMovies(movieList.name.lowercase()).then {
             binding.moviesRecyclerView.adapter = adapter.apply {
                 add(
                     MovieCardContainer(
-                        title,
+                        getString(movieList.title),
                         results.filter {
                             it.title != null && it.posterPath != null
-                        }.map {
-                            MovieItem(it, ::openMovieDetails)
-                        }
+                        }.map { MovieItem(it, ::openMovieDetails) }
                     )
                 )
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        adapter.clear()
     }
 
     private fun openMovieDetails(movie: Movie) {
@@ -78,5 +109,16 @@ class FeedFragment : BaseFragmentWithSearch<FeedFragmentBinding>() {
             bundleOf(KEY_MOVIE_ID to movie.id),
             navOptions
         )
+    }
+
+    override fun onStop() {
+        super.onStop()
+        searchBinding.searchToolbar.clear()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _searchBinding = null
+        adapter.clear()
     }
 }
