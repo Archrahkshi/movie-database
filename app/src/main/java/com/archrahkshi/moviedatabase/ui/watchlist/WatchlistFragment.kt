@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.archrahkshi.moviedatabase.databinding.WatchlistFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
-import com.archrahkshi.moviedatabase.ui.then
+import com.archrahkshi.moviedatabase.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 

@@ -11,8 +11,8 @@ import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
+import com.archrahkshi.moviedatabase.then
 import com.archrahkshi.moviedatabase.ui.BaseFragment
-import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 

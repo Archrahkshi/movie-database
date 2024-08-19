@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
+import com.archrahkshi.moviedatabase.loadFromPath
 import com.archrahkshi.moviedatabase.network.apiClient
+import com.archrahkshi.moviedatabase.then
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.feed.KEY_MOVIE_ID
-import com.archrahkshi.moviedatabase.ui.loadFromPath
-import com.archrahkshi.moviedatabase.ui.then
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 

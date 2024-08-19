@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import com.archrahkshi.moviedatabase.R
+import com.archrahkshi.moviedatabase.afterTextChanged
 import com.archrahkshi.moviedatabase.databinding.SearchToolbarBinding
 
 class SearchBar @JvmOverloads constructor(

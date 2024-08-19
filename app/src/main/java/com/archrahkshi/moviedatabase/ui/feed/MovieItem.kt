@@ -5,8 +5,8 @@ import com.archrahkshi.moviedatabase.BuildConfig.POSTER_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.databinding.ItemCardBinding
-import com.archrahkshi.moviedatabase.ui.loadFromPath
-import com.archrahkshi.moviedatabase.ui.toStars
+import com.archrahkshi.moviedatabase.loadFromPath
+import com.archrahkshi.moviedatabase.toStars
 import com.xwray.groupie.viewbinding.BindableItem
 
 class MovieItem(
