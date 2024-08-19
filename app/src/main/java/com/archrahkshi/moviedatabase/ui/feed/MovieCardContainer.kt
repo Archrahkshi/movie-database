@@ -11,13 +11,12 @@ class MovieCardContainer(
     private val title: String,
     private val items: List<BindableItem<*>>
 ) : BindableItem<ItemCardContainerBinding>() {
-
-    override fun getLayout() = R.layout.item_card_container
-
     override fun bind(view: ItemCardContainerBinding, position: Int) {
         view.movieCardTitle.text = title
         view.itemsContainer.adapter = GroupAdapter<GroupieViewHolder>().apply { addAll(items) }
     }
+
+    override fun getLayout() = R.layout.item_card_container
 
     override fun initializeViewBinding(view: View) = ItemCardContainerBinding.bind(view)
 }

@@ -19,8 +19,6 @@ import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.navOptions
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 import timber.log.Timber.Forest.d
 
 private const val MIN_LENGTH = 3
@@ -36,7 +34,6 @@ private enum class MovieList(@StringRes val title: Int) {
 class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     private var _searchBinding: FeedHeaderBinding? = null
     private val searchBinding get() = _searchBinding!!
-    private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FeedFragmentBinding.inflate(inflater, container, false)
@@ -88,17 +85,17 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     }
 
     private fun renderMovies(movieList: MovieList) {
-        apiClient.getMovies(movieList.name.lowercase()).then {
-            binding.moviesRecyclerView.adapter = adapter.apply {
-                add(
-                    MovieCardContainer(
-                        getString(movieList.title),
-                        results.filter {
-                            it.title != null && it.posterPath != null
-                        }.map { MovieItem(it, ::openMovieDetails) }
-                    )
+        apiClient.getMovies(
+            movieList.name.lowercase()
+        ).render(binding.moviesRecyclerView) { adapter ->
+            adapter.add(
+                MovieCardContainer(
+                    getString(movieList.title),
+                    results.filter { it.title != null && it.posterPath != null }.map {
+                        MovieItem(it, ::openMovieDetails)
+                    }
                 )
-            }
+            )
         }
     }
 
@@ -118,6 +115,5 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     override fun onDestroyView() {
         super.onDestroyView()
         _searchBinding = null
-        adapter.clear()
     }
 }

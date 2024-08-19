@@ -12,8 +12,6 @@ import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
 
 const val KEY_TV_SHOW_ID = "tvShowId"
 
@@ -32,15 +30,12 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        apiClient.getPopularTvShows().then {
-            binding.tvShowsRecyclerView.adapter =
-                GroupAdapter<GroupieViewHolder>().apply {
-                    addAll(
-                        results!!.filter {
-                            it.name != null && it.posterPath != null
-                        }.map { TvShowItem(it, ::openTvShowDetails) }
-                    )
-                }
+        apiClient.getPopularTvShows().render(binding.tvShowsRecyclerView) { adapter ->
+            adapter.addAll(
+                results!!.filter {
+                    it.name != null && it.posterPath != null
+                }.map { TvShowItem(it, ::openTvShowDetails) }
+            )
         }
     }
 
