@@ -6,13 +6,7 @@ import android.widget.ImageView
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.navOptions
 import com.archrahkshi.moviedatabase.BuildConfig.IMAGE_BASE_URL
-import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.squareup.picasso.Picasso
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread
-import io.reactivex.rxjava3.core.Scheduler
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers.io
-import timber.log.Timber.Forest.e
 import java.util.Locale
 
 val navOptions = navOptions {
@@ -33,15 +27,6 @@ fun ImageView.loadFromPath(path: String, width: Int) {
 
 // voteAverage from API is 0..10, but rating in RatingBar is 0..5 stars
 fun Float.toStars() = this / 2
-
-fun <T : Any> Single<T>.then(
-    context: BaseFragment<*>,
-    subscribeScheduler: Scheduler = io(),
-    observeScheduler: Scheduler = mainThread(),
-    action: T.() -> Unit
-) = subscribeOn(subscribeScheduler).observeOn(observeScheduler).subscribe(action, ::e).also(
-    context.compositeDisposable::add
-)
 
 fun getDefaultLanguage(): String = Locale.getDefault().toLanguageTag()
 

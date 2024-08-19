@@ -11,7 +11,6 @@ import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
-import com.archrahkshi.moviedatabase.then
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -33,7 +32,7 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        apiClient.getPopularTvShows().then(this) {
+        apiClient.getPopularTvShows().then {
             binding.tvShowsRecyclerView.adapter =
                 GroupAdapter<GroupieViewHolder>().apply {
                     addAll(

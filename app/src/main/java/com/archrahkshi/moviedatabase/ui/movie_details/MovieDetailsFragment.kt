@@ -9,7 +9,6 @@ import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
 import com.archrahkshi.moviedatabase.loadFromPath
 import com.archrahkshi.moviedatabase.network.apiClient
-import com.archrahkshi.moviedatabase.then
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.feed.KEY_MOVIE_ID
 import com.xwray.groupie.GroupAdapter
@@ -24,7 +23,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieId = requireArguments().getInt(KEY_MOVIE_ID)
-        apiClient.getMovieDetails(movieId).then(this) {
+        apiClient.getMovieDetails(movieId).then {
             with(binding) {
                 movieBackdrop.loadFromPath(
                     backdropPath ?: posterPath ?: "",
@@ -44,7 +43,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     }
 
     private fun renderCredits() {
-        apiClient.getMovieCredits(movieId).then(this) {
+        apiClient.getMovieCredits(movieId).then {
             binding.movieCredits.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 addAll(cast.filter { it.name != null }.map(::ActorItem))
             }

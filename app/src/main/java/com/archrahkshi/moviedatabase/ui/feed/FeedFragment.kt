@@ -18,7 +18,6 @@ import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.navOptions
 import com.archrahkshi.moviedatabase.network.apiClient
-import com.archrahkshi.moviedatabase.then
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -89,7 +88,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     }
 
     private fun renderMovies(movieList: MovieList) {
-        apiClient.getMovies(movieList.name.lowercase()).then(this) {
+        apiClient.getMovies(movieList.name.lowercase()).then {
             binding.moviesRecyclerView.adapter = adapter.apply {
                 add(
                     MovieCardContainer(
