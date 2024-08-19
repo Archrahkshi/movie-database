@@ -105,7 +105,11 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.retrofit)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.retrofit.kotlinx.serialization.converter)
 
     implementation(libs.logging.interceptor)
+
+    implementation(libs.retrofit.adapter.rxjava3)
+    implementation(libs.rxandroid)
+    implementation(libs.rxjava)
 }

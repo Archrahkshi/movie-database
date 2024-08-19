@@ -17,9 +17,12 @@ picassoTransformationsVersion = "2.4.0"
 #noinspection GradleDependency
 picassoVersion = "2.8"
 recyclerviewVersion = "1.3.2"
-retrofit2KotlinxSerializationConverterVersion = "1.0.0"
+retrofitAdapterRxjava3Version = "2.9.0"
+retrofitKotlinxSerializationConverterVersion = "1.0.0"
 retrofitVersion = "2.11.0"
-runnerVersion = "1.6.1"
+runnerVersion = "1.6.2"
+rxandroidVersion = "3.0.2"
+rxjavaVersion = "3.1.9"
 supportLibVersion = "1.7.0"
 timberVersion = "5.0.1"
 
@@ -46,12 +49,15 @@ picasso = { module = "com.squareup.picasso:picasso", version.ref = "picassoVersi
 picasso-transformations = { module = "jp.wasabeef:picasso-transformations", version.ref = "picassoTransformationsVersion" }
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerviewVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
-retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverterVersion" }
+retrofit-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofitAdapterRxjava3Version" }
+retrofit-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationConverterVersion" }
 runner = { module = "androidx.test:runner", version.ref = "runnerVersion" }
+rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroidVersion" }
+rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjavaVersion" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "gradleVersion" }
-jacoco = { id = "org.gradle.jacoco"}
+jacoco = { id = "org.gradle.jacoco" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
