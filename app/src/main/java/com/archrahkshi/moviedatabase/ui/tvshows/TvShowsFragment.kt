@@ -33,7 +33,7 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        apiClient.getPopularTvShows().then {
+        apiClient.getPopularTvShows().then(this) {
             binding.tvShowsRecyclerView.adapter =
                 GroupAdapter<GroupieViewHolder>().apply {
                     addAll(

@@ -24,7 +24,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieId = requireArguments().getInt(KEY_MOVIE_ID)
-        apiClient.getMovieDetails(movieId).then {
+        apiClient.getMovieDetails(movieId).then(this) {
             with(binding) {
                 movieBackdrop.loadFromPath(
                     backdropPath ?: posterPath ?: "",
@@ -44,7 +44,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     }
 
     private fun renderCredits() {
-        apiClient.getMovieCredits(movieId).then {
+        apiClient.getMovieCredits(movieId).then(this) {
             binding.movieCredits.adapter = GroupAdapter<GroupieViewHolder>().apply {
                 addAll(cast.filter { it.name != null }.map(::ActorItem))
             }

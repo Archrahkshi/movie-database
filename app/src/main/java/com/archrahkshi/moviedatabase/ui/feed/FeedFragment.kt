@@ -22,7 +22,6 @@ import com.archrahkshi.moviedatabase.then
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import timber.log.Timber.Forest.d
 
 private const val MIN_LENGTH = 3
@@ -39,7 +38,6 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     private var _searchBinding: FeedHeaderBinding? = null
     private val searchBinding get() = _searchBinding!!
     private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
-    private val compositeDisposable = CompositeDisposable()
 
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FeedFragmentBinding.inflate(inflater, container, false)
@@ -91,7 +89,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     }
 
     private fun renderMovies(movieList: MovieList) {
-        apiClient.getMovies(movieList.name.lowercase()).then {
+        apiClient.getMovies(movieList.name.lowercase()).then(this) {
             binding.moviesRecyclerView.adapter = adapter.apply {
                 add(
                     MovieCardContainer(
@@ -102,7 +100,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
                     )
                 )
             }
-        }.also(compositeDisposable::add)
+        }
     }
 
     private fun openMovieDetails(movie: Movie) {
@@ -122,6 +120,5 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
         super.onDestroyView()
         _searchBinding = null
         adapter.clear()
-        compositeDisposable.dispose()
     }
 }
