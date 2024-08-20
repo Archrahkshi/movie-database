@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/flow_step_one_dest"
-        android:name="com.archrahkshi.moviedatabase.ui.movie_details.MovieDetailsFragment"
+        android:name="com.archrahkshi.moviedatabase.ui.moviedetails.MovieDetailsFragment"
         tools:layout="@layout/movie_details_fragment">
 
         <argument
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/flow_step_two_dest"
-        android:name="com.archrahkshi.moviedatabase.ui.movie_details.MovieDetailsFragment"
+        android:name="com.archrahkshi.moviedatabase.ui.moviedetails.MovieDetailsFragment"
         tools:layout="@layout/movie_details_fragment">
 
         <argument
@@ -53,7 +53,7 @@
 
     <fragment
         android:id="@+id/movie_details_fragment"
-        android:name="com.archrahkshi.moviedatabase.ui.movie_details.MovieDetailsFragment"
+        android:name="com.archrahkshi.moviedatabase.ui.moviedetails.MovieDetailsFragment"
         android:label="Movie details"
         tools:layout="@layout/movie_details_fragment" />
 

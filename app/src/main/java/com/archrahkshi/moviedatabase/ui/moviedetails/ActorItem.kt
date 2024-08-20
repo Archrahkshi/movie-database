@@ -1,4 +1,4 @@
-package com.archrahkshi.moviedatabase.ui.movie_details
+package com.archrahkshi.moviedatabase.ui.moviedetails
 
 import android.view.View
 import com.archrahkshi.moviedatabase.BuildConfig.PROFILE_WIDTH

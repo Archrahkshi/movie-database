@@ -1,4 +1,4 @@
-package com.archrahkshi.moviedatabase.ui.movie_details
+package com.archrahkshi.moviedatabase.ui.moviedetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,9 +31,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
                 movieRatingDetailed.text = getString(R.string.imdb_rating, voteAverage)
                 movieDescription.text = overview
                 renderCredits()
-                movieStudio.text = productionCompanies?.joinToString {
-                    it.name.orEmpty()
-                }.orEmpty()
+                movieStudio.text = productionCompanies?.joinToString { it.name.orEmpty() }.orEmpty()
                 movieGenre.text = genres?.joinToString { it.name.orEmpty() }.orEmpty()
                 movieYear.text = releaseDate?.substringBefore('-').orEmpty()
             }

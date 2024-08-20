@@ -53,7 +53,10 @@ data class ProductionCompany(
 )
 
 @Serializable
-data class ProductionCountry(@SerialName("iso_3166_1") val iso31661: String?, val name: String?)
+data class ProductionCountry(
+    @SerialName("iso_3166_1") val iso31661: String?,
+    val name: String?
+)
 
 @Serializable
 data class SpokenLanguage(

@@ -11,9 +11,11 @@ import androidx.viewbinding.ViewBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers.io
 import timber.log.Timber.Forest.e
 
@@ -48,12 +50,26 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         adapter.clear()
     }
 
+    private fun addToCompositeDisposable(disposable: Disposable) {
+        compositeDisposable.add(disposable)
+    }
+
+    protected fun <T : Any> Observable<T>.onReceive(
+        subscribeScheduler: Scheduler = io(),
+        observeScheduler: Scheduler = mainThread(),
+        action: T.() -> Unit
+    ) {
+        addToCompositeDisposable(
+            subscribeOn(subscribeScheduler).observeOn(observeScheduler).subscribe(action, ::e)
+        )
+    }
+
     protected fun <T : Any> Single<T>.onReceive(
         subscribeScheduler: Scheduler = io(),
         observeScheduler: Scheduler = mainThread(),
         action: T.() -> Unit
     ) {
-        compositeDisposable.add(
+        addToCompositeDisposable(
             subscribeOn(subscribeScheduler).observeOn(observeScheduler).subscribe(action, ::e)
         )
     }

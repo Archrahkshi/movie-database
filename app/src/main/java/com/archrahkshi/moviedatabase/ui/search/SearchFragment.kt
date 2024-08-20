@@ -28,8 +28,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val searchTerm = requireArguments().getString(KEY_SEARCH)
-        searchBinding.searchToolbar.setText(searchTerm)
+        searchBinding.searchToolbar.setText(requireArguments().getString(KEY_SEARCH))
     }
 
     override fun onDestroyView() {

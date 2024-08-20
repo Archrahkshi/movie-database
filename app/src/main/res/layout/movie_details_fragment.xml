@@ -6,7 +6,7 @@
     android:background="@color/blueDark"
     android:fitsSystemWindows="true"
     app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
-    tools:context="com.archrahkshi.moviedatabase.ui.movie_details.MovieDetailsFragment">
+    tools:context="com.archrahkshi.moviedatabase.ui.moviedetails.MovieDetailsFragment">
 
     <ImageView
         android:id="@+id/movieBackdrop"

@@ -12,16 +12,13 @@ import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.afterTextChanged
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.navOptions
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
-import timber.log.Timber.Forest.d
 
-private const val MIN_LENGTH = 3
 const val KEY_SEARCH = "search"
 const val KEY_MOVIE_ID = "movieId"
 
@@ -65,15 +62,12 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        searchBinding.searchToolbar.binding.searchEditText.afterTextChanged {
-            d(it.toString())
-            if (it.toString().length > MIN_LENGTH) {
-                openSearch(it.toString())
-            }
-        }
-
+        setupSearchObserver()
         MovieList.entries.forEach(::renderMovies)
+    }
+
+    private fun setupSearchObserver() {
+        searchBinding.searchToolbar.observeContent().onReceive(action = ::openSearch)
     }
 
     private fun openSearch(searchText: String) {
