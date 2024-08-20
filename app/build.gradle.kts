@@ -1,12 +1,8 @@
 import java.io.FileInputStream
 import java.util.Properties
 
-apply("../ktlint.gradle")
-
-
 val keystoreProperties = Properties()
 keystoreProperties.load(FileInputStream(rootProject.file("keystore.properties")))
-
 
 android {
     namespace = "com.archrahkshi.moviedatabase"
@@ -50,26 +46,24 @@ android {
 
     buildFeatures {
         buildConfig = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
-    buildFeatures {
         viewBinding = true
     }
 }
+
+kotlin.jvmToolchain(17)
 
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ktlint)
+}
+
+ktlint {
+    android = true
+//    ignoreFailures = false
+    outputToConsole = true
+    outputColorName = "RED"
 }
 
 dependencies {
@@ -105,7 +99,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.retrofit)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.retrofit.kotlinx.serialization.converter)
 
     implementation(libs.logging.interceptor)
 }
