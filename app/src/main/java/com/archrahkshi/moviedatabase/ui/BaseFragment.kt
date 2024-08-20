@@ -40,7 +40,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
     @CallSuper
     override fun onStop() {
         super.onStop()
-        compositeDisposable.dispose()
+        compositeDisposable.clear()
     }
 
     @CallSuper
