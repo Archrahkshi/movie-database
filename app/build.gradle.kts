@@ -59,13 +59,6 @@ plugins {
     alias(libs.plugins.ktlint)
 }
 
-ktlint {
-    android = true
-//    ignoreFailures = false
-    outputToConsole = true
-    outputColorName = "RED"
-}
-
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
