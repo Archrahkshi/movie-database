@@ -1,6 +1,14 @@
-package com.archrahkshi.moviedatabase.data
+package com.archrahkshi.moviedatabase.network.responses
 
 import kotlinx.serialization.Serializable
+
+@Serializable
+data class TvShows(
+    val page: Int = 0,
+    val results: List<TvShow>?,
+    val totalPages: Int = 0,
+    val totalResults: Int = 0
+) : Response
 
 @Serializable
 data class TvShow(
@@ -18,4 +26,4 @@ data class TvShow(
     val posterPath: String?,
     val voteAverage: Float = 0f,
     val voteCount: Int = 0
-)
+) : Response

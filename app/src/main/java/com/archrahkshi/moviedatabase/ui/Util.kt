@@ -1,4 +1,4 @@
-package com.archrahkshi.moviedatabase
+package com.archrahkshi.moviedatabase.ui
 
 import android.text.Editable
 import android.widget.EditText
@@ -6,8 +6,8 @@ import android.widget.ImageView
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.navOptions
 import com.archrahkshi.moviedatabase.BuildConfig.IMAGE_BASE_URL
+import com.archrahkshi.moviedatabase.R
 import com.squareup.picasso.Picasso
-import java.util.Locale
 
 val navOptions = navOptions {
     anim {
@@ -27,7 +27,3 @@ fun ImageView.loadFromPath(path: String, width: Int) {
 
 // voteAverage from API is 0..10, but rating in RatingBar is 0..5 stars
 fun Float.toStars() = this / 2
-
-fun getDefaultLanguage(): String = Locale.getDefault().toLanguageTag()
-
-fun getDefaultCountry(): String = Locale.getDefault().country

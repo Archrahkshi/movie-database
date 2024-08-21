@@ -7,8 +7,8 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.afterTextChanged
 import com.archrahkshi.moviedatabase.databinding.SearchToolbarBinding
+import com.archrahkshi.moviedatabase.ui.afterTextChanged
 import io.reactivex.rxjava3.core.Observable
 import java.util.concurrent.TimeUnit.MILLISECONDS
 

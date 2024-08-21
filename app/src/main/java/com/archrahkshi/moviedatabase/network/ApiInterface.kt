@@ -3,12 +3,10 @@ package com.archrahkshi.moviedatabase.network
 import com.archrahkshi.moviedatabase.BuildConfig.API_KEY
 import com.archrahkshi.moviedatabase.BuildConfig.BASE_URL
 import com.archrahkshi.moviedatabase.BuildConfig.DEBUG
-import com.archrahkshi.moviedatabase.data.MovieCredits
-import com.archrahkshi.moviedatabase.data.MovieDetails
-import com.archrahkshi.moviedatabase.data.Movies
-import com.archrahkshi.moviedatabase.data.TvShows
-import com.archrahkshi.moviedatabase.getDefaultCountry
-import com.archrahkshi.moviedatabase.getDefaultLanguage
+import com.archrahkshi.moviedatabase.network.responses.MovieCredits
+import com.archrahkshi.moviedatabase.network.responses.MovieDetails
+import com.archrahkshi.moviedatabase.network.responses.Movies
+import com.archrahkshi.moviedatabase.network.responses.TvShows
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.reactivex.rxjava3.core.Single
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -24,6 +22,11 @@ import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.Locale
+
+private fun getDefaultLanguage(): String = Locale.getDefault().toLanguageTag()
+
+private fun getDefaultCountry(): String = Locale.getDefault().country
 
 @OptIn(ExperimentalSerializationApi::class)
 val apiClient by lazy {

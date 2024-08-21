@@ -5,8 +5,7 @@ import com.archrahkshi.moviedatabase.BuildConfig.POSTER_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.databinding.ItemCardBinding
-import com.archrahkshi.moviedatabase.loadFromPath
-import com.archrahkshi.moviedatabase.toStars
+import com.archrahkshi.moviedatabase.ui.loadFromPath
 import com.xwray.groupie.viewbinding.BindableItem
 
 class MovieItem(
@@ -15,9 +14,9 @@ class MovieItem(
 ) : BindableItem<ItemCardBinding>() {
     override fun bind(viewBinding: ItemCardBinding, position: Int) {
         with(viewBinding) {
-            content.posterPath?.let { moviePoster.loadFromPath(it, POSTER_WIDTH) }
+            moviePoster.loadFromPath(content.posterPath, POSTER_WIDTH)
             movieTitle.text = content.title
-            movieRating.rating = content.voteAverage.toStars()
+            movieRating.rating = content.rating
             movieCard.setOnClickListener { onClick(content) }
         }
     }

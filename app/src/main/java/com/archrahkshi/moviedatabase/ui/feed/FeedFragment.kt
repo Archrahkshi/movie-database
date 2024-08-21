@@ -13,11 +13,12 @@ import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
+import com.archrahkshi.moviedatabase.data.Movies
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
-import com.archrahkshi.moviedatabase.navOptions
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
+import com.archrahkshi.moviedatabase.ui.navOptions
 
 const val KEY_SEARCH = "search"
 const val KEY_MOVIE_ID = "movieId"
@@ -81,13 +82,11 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     private fun renderMovies(movieList: MovieList) {
         apiClient.getMovies(
             movieList.name.lowercase()
-        ).render(binding.moviesRecyclerView) { adapter ->
-            adapter.add(
+        ).render(binding.moviesRecyclerView) { movies ->
+            add(
                 MovieCardContainer(
                     getString(movieList.title),
-                    results.filter { it.title != null && it.posterPath != null }.map {
-                        MovieItem(it, ::openMovieDetails)
-                    }
+                    (movies as Movies).results.map { MovieItem(it, ::openMovieDetails) }
                 )
             )
         }

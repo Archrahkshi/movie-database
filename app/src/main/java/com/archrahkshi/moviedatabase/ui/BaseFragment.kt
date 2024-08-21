@@ -8,6 +8,8 @@ import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.archrahkshi.moviedatabase.data.ViewObject
+import com.archrahkshi.moviedatabase.network.responses.Response
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread
@@ -64,7 +66,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         )
     }
 
-    protected fun <T : Any> Single<T>.onReceive(
+    protected fun <T : Response> Single<T>.onReceive(
         subscribeScheduler: Scheduler = io(),
         observeScheduler: Scheduler = mainThread(),
         action: T.() -> Unit
@@ -74,15 +76,15 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         )
     }
 
-    protected fun <T : Any> Single<T>.render(
+    protected fun <T : Response> Single<T>.render(
         view: RecyclerView,
         subscribeScheduler: Scheduler = io(),
         observeScheduler: Scheduler = mainThread(),
-        action: T.(GroupAdapter<GroupieViewHolder>) -> Unit
+        action: GroupAdapter<GroupieViewHolder>.(ViewObject) -> Unit
     ) {
         onReceive(subscribeScheduler, observeScheduler) {
             view.adapter = adapter.also { groupAdapter ->
-                action(this, groupAdapter)
+                action(groupAdapter, this.toViewObject())
             }
         }
     }
