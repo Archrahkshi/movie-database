@@ -66,7 +66,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         )
     }
 
-    protected fun <T : Response> Single<T>.onReceive(
+    protected fun <T : Any> Single<T>.onReceive(
         subscribeScheduler: Scheduler = io(),
         observeScheduler: Scheduler = mainThread(),
         action: T.() -> Unit
@@ -83,9 +83,20 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         action: GroupAdapter<GroupieViewHolder>.(ViewObject) -> Unit
     ) {
         onReceive(subscribeScheduler, observeScheduler) {
-            view.adapter = adapter.also { groupAdapter ->
-                action(groupAdapter, this.toViewObject())
-            }
+            action(adapter, toViewObject())
+            view.adapter = adapter
+        }
+    }
+
+    protected fun <T : List<Response>> Single<T>.renderAll(
+        view: RecyclerView,
+        subscribeScheduler: Scheduler = io(),
+        observeScheduler: Scheduler = mainThread(),
+        action: GroupAdapter<GroupieViewHolder>.(List<ViewObject>) -> Unit
+    ) {
+        onReceive(subscribeScheduler, observeScheduler) {
+            action(adapter, map { it.toViewObject() })
+            view.adapter = adapter
         }
     }
 }

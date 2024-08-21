@@ -14,11 +14,14 @@ import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.data.Movies
+import com.archrahkshi.moviedatabase.data.ViewObject
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.navOptions
+import io.reactivex.rxjava3.core.Single
+import timber.log.Timber.Forest.e
 
 const val KEY_SEARCH = "search"
 const val KEY_MOVIE_ID = "movieId"
@@ -64,7 +67,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupSearchObserver()
-        MovieList.entries.forEach(::renderMovies)
+        renderMovies()
     }
 
     private fun setupSearchObserver() {
@@ -79,18 +82,30 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
         )
     }
 
-    private fun renderMovies(movieList: MovieList) {
-        apiClient.getMovies(
-            movieList.name.lowercase()
-        ).render(binding.moviesRecyclerView) { movies ->
-            add(
-                MovieCardContainer(
-                    getString(movieList.title),
-                    (movies as Movies).results.map { MovieItem(it, ::openMovieDetails) }
-                )
+    private fun renderMovies() {
+        val responses = Array(MovieList.entries.size) {
+            apiClient.getMovies(MovieList.entries[it].name.lowercase())
+        }
+        Single.zip(responses[0], responses[1], responses[2]) { nowPlaying, popular, upcoming ->
+            listOf(nowPlaying, popular, upcoming)
+        }
+            .doOnSubscribe {
+                // render loader
+            }
+            .doFinally {
+                // stop rendering loader
+            }
+            .doOnError(::e)
+            .renderAll(binding.moviesRecyclerView) { addAll(composeMovieLists(it)) }
+    }
+
+    private fun composeMovieLists(movieLists: List<ViewObject>) =
+        List(MovieList.entries.size) { index ->
+            MovieCardContainer(
+                getString(MovieList.entries[index].title),
+                (movieLists[index] as Movies).results.map { MovieItem(it, ::openMovieDetails) }
             )
         }
-    }
 
     private fun openMovieDetails(movie: Movie) {
         findNavController().navigate(
