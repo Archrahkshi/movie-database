@@ -6,7 +6,6 @@ import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.databinding.ItemTvShowBinding
 import com.archrahkshi.moviedatabase.ui.loadFromPath
-import com.archrahkshi.moviedatabase.ui.toStars
 import com.xwray.groupie.viewbinding.BindableItem
 
 class TvShowItem(
@@ -15,9 +14,9 @@ class TvShowItem(
 ) : BindableItem<ItemTvShowBinding>() {
     override fun bind(viewBinding: ItemTvShowBinding, position: Int) {
         with(viewBinding) {
-            content.posterPath?.let { tvShowPreview.loadFromPath(it, BACKDROP_WIDTH) }
+            tvShowPreview.loadFromPath(content.posterPath, BACKDROP_WIDTH)
             tvShowTitle.text = content.name
-            tvShowRating.rating = content.voteAverage.toStars()
+            tvShowRating.rating = content.rating
             itemTvShow.setOnClickListener { onClick(content) }
         }
     }

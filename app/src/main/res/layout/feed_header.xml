@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <com.archrahkshi.moviedatabase.ui.SearchBar
+                        <com.archrahkshi.moviedatabase.ui.search.SearchBar
                             android:id="@+id/search_toolbar"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/search_bar_height"
@@ -66,10 +66,7 @@
                             android:background="@drawable/list_background" />
                     </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>
-
             </LinearLayout>
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 </merge>

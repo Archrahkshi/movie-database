@@ -4,47 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.archrahkshi.moviedatabase.data.Movies
 import com.archrahkshi.moviedatabase.databinding.WatchlistFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
-import com.archrahkshi.moviedatabase.ui.then
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
+import com.archrahkshi.moviedatabase.ui.BaseFragment
 
-class WatchlistFragment : Fragment() {
-
-    private var _binding: WatchlistFragmentBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = WatchlistFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class WatchlistFragment : BaseFragment<WatchlistFragmentBinding>() {
+    override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        WatchlistFragmentBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.moviesRecyclerView.layoutManager = GridLayoutManager(context, 4)
 
-        apiClient.getPopularMovies().then {
-            binding.moviesRecyclerView.adapter =
-                GroupAdapter<GroupieViewHolder>().apply {
-                    addAll(results.map { MoviePreviewItem(it) {} })
-                }
+        apiClient.getMovies("popular").render(binding.moviesRecyclerView) { movies ->
+            addAll((movies as Movies).results.map { MoviePreviewItem(it) {} })
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

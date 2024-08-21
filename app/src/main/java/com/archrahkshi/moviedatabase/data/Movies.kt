@@ -1,15 +1,14 @@
 package com.archrahkshi.moviedatabase.data
 
-import kotlinx.serialization.Serializable
+data class Movies(val results: List<Movie>) : ViewObject
 
-@Serializable
-data class Movies(
-    val dates: Dates? = null,
-    val page: Int = 0,
-    val results: List<Movie> = emptyList(),
-    val totalPages: Int = 0,
-    val totalResults: Int = 0
-)
+object Dates : ViewObject
 
-@Serializable
-data class Dates(val maximum: String, val minimum: String)
+data class Movie(
+    val backdropPath: String?,
+    val id: Int,
+    val overview: String,
+    val posterPath: String,
+    val title: String,
+    val rating: Float
+) : ViewObject

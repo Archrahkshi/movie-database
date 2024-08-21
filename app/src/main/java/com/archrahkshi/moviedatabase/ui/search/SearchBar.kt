@@ -1,4 +1,4 @@
-package com.archrahkshi.moviedatabase.ui
+package com.archrahkshi.moviedatabase.ui.search
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,15 +8,18 @@ import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.SearchToolbarBinding
+import com.archrahkshi.moviedatabase.ui.afterTextChanged
+import io.reactivex.rxjava3.core.Observable
+import java.util.concurrent.TimeUnit.MILLISECONDS
+
+private const val MIN_LENGTH = 3
 
 class SearchBar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : FrameLayout(context, attrs, defStyle) {
-
-    lateinit var binding: SearchToolbarBinding
-
+    private lateinit var binding: SearchToolbarBinding
     private var hint: String = ""
     private var isCancelVisible: Boolean = true
 
@@ -29,6 +32,16 @@ class SearchBar @JvmOverloads constructor(
             }
         }
     }
+
+    fun observeContent() = Observable.create { emitter ->
+        binding.searchEditText.afterTextChanged {
+            if (!emitter.isDisposed) {
+                emitter.onNext(it.toString())
+            }
+        }
+    }.debounce(500, MILLISECONDS).map { it.trim() }.filter {
+        it.length > MIN_LENGTH
+    }.distinctUntilChanged()
 
     fun setText(text: String?) {
         binding.searchEditText.setText(text)
@@ -49,14 +62,13 @@ class SearchBar @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        binding.searchEditText.afterTextChanged { text ->
-            if (!text.isNullOrEmpty() && !binding.deleteTextButton.isVisible) {
+        binding.searchEditText.afterTextChanged {
+            if (!it.isNullOrEmpty() && !binding.deleteTextButton.isVisible) {
                 binding.deleteTextButton.visibility = View.VISIBLE
             }
-            if (text.isNullOrEmpty() && binding.deleteTextButton.isVisible) {
+            if (it.isNullOrEmpty() && binding.deleteTextButton.isVisible) {
                 binding.deleteTextButton.visibility = View.GONE
             }
         }
     }
-
 }

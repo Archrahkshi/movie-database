@@ -1,11 +1,10 @@
 package com.archrahkshi.moviedatabase.data
 
-import kotlinx.serialization.Serializable
+data class TvShows(val results: List<TvShow>) : ViewObject
 
-@Serializable
-data class TvShows(
-    val page: Int = 0,
-    val results: List<TvShow>?,
-    val totalPages: Int = 0,
-    val totalResults: Int = 0
-)
+data class TvShow(
+    val id: Int,
+    val name: String,
+    val posterPath: String,
+    val rating: Float
+) : ViewObject
