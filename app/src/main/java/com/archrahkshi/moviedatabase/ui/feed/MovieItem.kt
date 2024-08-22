@@ -10,13 +10,13 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class MovieItem(
     private val content: Movie,
-    private val onClick: (movie: Movie) -> Unit
+    private val onClick: (Movie) -> Unit
 ) : BindableItem<ItemCardBinding>() {
     override fun bind(viewBinding: ItemCardBinding, position: Int) {
         with(viewBinding) {
             moviePoster.loadFromPath(content.posterPath, POSTER_WIDTH)
             movieTitle.text = content.title
-            movieRating.rating = content.rating
+            movieRating.rating = content.ratingInStars
             movieCard.setOnClickListener { onClick(content) }
         }
     }

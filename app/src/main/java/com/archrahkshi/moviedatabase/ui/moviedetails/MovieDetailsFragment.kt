@@ -15,14 +15,12 @@ import com.archrahkshi.moviedatabase.ui.feed.KEY_MOVIE_ID
 import com.archrahkshi.moviedatabase.ui.loadFromPath
 
 class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
-    private var movieId = 0
-
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
         MovieDetailsFragmentBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        movieId = requireArguments().getInt(KEY_MOVIE_ID)
+        val movieId = requireArguments().getInt(KEY_MOVIE_ID)
         apiClient.getMovieDetails(movieId)
             .applySchedulers()
             .withProgressBar(
@@ -37,7 +35,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
                         movieTitleDetailed.text = title
                         movieRatingDetailed.text = getString(R.string.imdb_rating, voteAverage)
                         movieDescription.text = overview
-                        renderCredits()
+                        renderCredits(movieId)
                         movieStudio.text = studio
                         movieGenre.text = genre
                         movieYear.text = year
@@ -46,7 +44,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
             }
     }
 
-    private fun renderCredits() {
+    private fun renderCredits(movieId: Int) {
         apiClient.getMovieCredits(movieId)
             .applySchedulers()
             .render(binding.movieCredits) { credits ->

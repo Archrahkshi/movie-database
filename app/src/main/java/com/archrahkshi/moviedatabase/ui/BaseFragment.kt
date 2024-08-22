@@ -8,8 +8,10 @@ import android.widget.ProgressBar
 import androidx.annotation.CallSuper
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.ViewObject
 import com.archrahkshi.moviedatabase.network.responses.Response
 import com.xwray.groupie.GroupAdapter
@@ -28,6 +30,15 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
     protected val binding: Binding get() = _binding!!
     private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
     private val compositeDisposable by lazy(::CompositeDisposable)
+
+    protected val navOptions = navOptions {
+        anim {
+            enter = R.anim.slide_in_right
+            exit = R.anim.slide_out_left
+            popEnter = R.anim.slide_in_left
+            popExit = R.anim.slide_out_right
+        }
+    }
 
     abstract fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?): Binding
 

@@ -76,4 +76,16 @@ interface ApiInterface {
         @Query("page") page: Int = 1,
         @Query("api_key") apiKey: String = API_KEY
     ): Single<TvShows>
+
+    @GET("search/movie")
+    fun searchForMovies(
+        @Query("query") query: String,
+        @Query("include_adult") includeAdult: Boolean = false,
+        @Query("language") language: String = getDefaultLanguage(),
+        @Query("primary_release_year") primaryReleaseYear: String? = null,
+        @Query("page") page: Int = 1,
+        @Query("region") region: String = getDefaultCountry(),
+        @Query("year") year: String? = null,
+        @Query("api_key") apiKey: String = API_KEY
+    ): Single<Movies>
 }

@@ -1,4 +1,4 @@
-package com.archrahkshi.moviedatabase.ui.search
+package com.archrahkshi.moviedatabase.ui
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,9 +7,8 @@ import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.SearchToolbarBinding
-import com.archrahkshi.moviedatabase.ui.afterTextChanged
 import io.reactivex.rxjava3.subjects.PublishSubject
-import java.util.concurrent.TimeUnit.MILLISECONDS
+import java.util.concurrent.TimeUnit
 
 private const val MIN_LENGTH = 3
 
@@ -56,7 +55,7 @@ class SearchBar @JvmOverloads constructor(
     }
 
     fun observeSearchContent() = searchSubject
-        .debounce(500, MILLISECONDS)
+        .debounce(500, TimeUnit.MILLISECONDS)
         .map { it.trim() }
         .filter { it.length > MIN_LENGTH }
         .distinctUntilChanged()

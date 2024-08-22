@@ -9,6 +9,7 @@ data class Movie(
     val id: Int,
     val overview: String,
     val posterPath: String,
+    val ratingInStars: Float,
     val title: String,
-    val rating: Float
+    val voteAverage: Float
 ) : ViewObject

@@ -48,8 +48,15 @@ sealed interface Response {
             }.map { it.toViewObject() as DataMovie }
         )
         is Dates -> DataDates
-        is Movie ->
-            DataMovie(backdropPath, id, overview!!, posterPath!!, title!!, voteAverage.toStars())
+        is Movie -> DataMovie(
+            backdropPath,
+            id,
+            overview!!,
+            posterPath!!,
+            voteAverage.toStars(),
+            title!!,
+            voteAverage
+        )
         // TvShows.kt
         is TvShows -> DataTvShows(
             results!!.filter {

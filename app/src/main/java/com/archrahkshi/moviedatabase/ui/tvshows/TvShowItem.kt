@@ -16,7 +16,7 @@ class TvShowItem(
         with(viewBinding) {
             tvShowPreview.loadFromPath(content.posterPath, BACKDROP_WIDTH)
             tvShowTitle.text = content.name
-            tvShowRating.rating = content.rating
+            tvShowRating.rating = content.ratingInStars
             itemTvShow.setOnClickListener { onClick(content) }
         }
     }

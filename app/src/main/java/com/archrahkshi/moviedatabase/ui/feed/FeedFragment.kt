@@ -19,7 +19,7 @@ import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
-import com.archrahkshi.moviedatabase.ui.navOptions
+import com.archrahkshi.moviedatabase.ui.search.SearchItem
 import io.reactivex.rxjava3.core.Single
 
 const val KEY_SEARCH = "search"
@@ -74,11 +74,13 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     }
 
     private fun openSearch(searchText: String) {
-        findNavController().navigate(
-            R.id.search_dest,
-            bundleOf(KEY_SEARCH to searchText),
-            navOptions
-        )
+        apiClient.searchForMovies(searchText)
+            .applySchedulers()
+            .withProgressBar(binding.feedProgressBar, binding.feed)
+            .render(binding.feed) { movies ->
+                clear()
+                addAll((movies as Movies).results.map { SearchItem(it, ::openMovieDetails) })
+            }
     }
 
     private fun renderMovies() {

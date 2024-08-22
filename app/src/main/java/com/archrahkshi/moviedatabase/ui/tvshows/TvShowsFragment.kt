@@ -12,7 +12,6 @@ import com.archrahkshi.moviedatabase.data.TvShows
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
-import com.archrahkshi.moviedatabase.ui.navOptions
 
 const val KEY_TV_SHOW_ID = "tvShowId"
 
