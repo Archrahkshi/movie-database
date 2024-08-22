@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.MovieCredits
@@ -23,24 +24,38 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieId = requireArguments().getInt(KEY_MOVIE_ID)
-        apiClient.getMovieDetails(movieId).onReceive {
-            with(toViewObject() as MovieDetails) {
-                with(binding) {
-                    movieBackdrop.loadFromPath(background, BACKDROP_WIDTH)
-                    movieTitleDetailed.text = title
-                    movieRatingDetailed.text = getString(R.string.imdb_rating, voteAverage)
-                    movieDescription.text = overview
-                    renderCredits()
-                    movieStudio.text = studio
-                    movieGenre.text = genre
-                    movieYear.text = year
+        apiClient.getMovieDetails(movieId)
+            .applySchedulers()
+            .doOnSubscribe {
+                binding.movieBackdrop.isVisible = false
+                binding.movieDetails.isVisible = false
+                binding.movieDetailsProgressBar.isVisible = true
+            }
+            .doFinally {
+                binding.movieDetailsProgressBar.isVisible = false
+                binding.movieBackdrop.isVisible = true
+                binding.movieDetails.isVisible = true
+            }
+            .subscribeAndDispose {
+                with(toViewObject() as MovieDetails) {
+                    with(binding) {
+                        movieBackdrop.loadFromPath(background, BACKDROP_WIDTH)
+                        movieTitleDetailed.text = title
+                        movieRatingDetailed.text = getString(R.string.imdb_rating, voteAverage)
+                        movieDescription.text = overview
+                        renderCredits()
+                        movieStudio.text = studio
+                        movieGenre.text = genre
+                        movieYear.text = year
+                    }
                 }
             }
-        }
     }
 
     private fun renderCredits() {
-        apiClient.getMovieCredits(movieId).render(binding.movieCredits) { credits ->
+        apiClient.getMovieCredits(movieId)
+            .applySchedulers()
+            .render(binding.movieCredits) { credits ->
             addAll((credits as MovieCredits).cast.map(::ActorItem))
         }
     }

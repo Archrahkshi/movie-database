@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
@@ -21,7 +22,6 @@ import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.navOptions
 import io.reactivex.rxjava3.core.Single
-import timber.log.Timber.Forest.e
 
 const val KEY_SEARCH = "search"
 const val KEY_MOVIE_ID = "movieId"
@@ -89,14 +89,16 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
         Single.zip(responses[0], responses[1], responses[2]) { nowPlaying, popular, upcoming ->
             listOf(nowPlaying, popular, upcoming)
         }
+            .applySchedulers()
             .doOnSubscribe {
-                // render loader
+                binding.feed.isVisible = false
+                binding.feedProgressBar.isVisible = true
             }
             .doFinally {
-                // stop rendering loader
+                binding.feedProgressBar.isVisible = false
+                binding.feed.isVisible = true
             }
-            .doOnError(::e)
-            .renderAll(binding.moviesRecyclerView) { addAll(composeMovieLists(it)) }
+            .renderAll(binding.feed) { addAll(composeMovieLists(it)) }
     }
 
     private fun composeMovieLists(movieLists: List<ViewObject>) =

@@ -56,17 +56,16 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         compositeDisposable.add(disposable)
     }
 
-    protected fun <T : Any> Observable<T>.onReceive(
-        subscribeScheduler: Scheduler = io(),
-        observeScheduler: Scheduler = mainThread(),
-        action: T.() -> Unit
-    ) {
-        addToCompositeDisposable(
-            subscribeOn(subscribeScheduler).observeOn(observeScheduler).subscribe(action, ::e)
-        )
+    protected fun <T : Any> Single<T>.subscribeAndDispose(action: T.() -> Unit) {
+        addToCompositeDisposable(subscribe(action, ::e))
     }
 
-    protected fun <T : Any> Single<T>.onReceive(
+    protected fun <T : Any> Single<T>.applySchedulers(
+        subscribeScheduler: Scheduler = io(),
+        observeScheduler: Scheduler = mainThread()
+    ) = subscribeOn(subscribeScheduler).observeOn(observeScheduler)
+
+    protected fun <T : Any> Observable<T>.onReceive(
         subscribeScheduler: Scheduler = io(),
         observeScheduler: Scheduler = mainThread(),
         action: T.() -> Unit
@@ -78,11 +77,9 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
 
     protected fun <T : Response> Single<T>.render(
         view: RecyclerView,
-        subscribeScheduler: Scheduler = io(),
-        observeScheduler: Scheduler = mainThread(),
         action: GroupAdapter<GroupieViewHolder>.(ViewObject) -> Unit
     ) {
-        onReceive(subscribeScheduler, observeScheduler) {
+        subscribeAndDispose {
             action(adapter, toViewObject())
             view.adapter = adapter
         }
@@ -90,11 +87,9 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
 
     protected fun <T : List<Response>> Single<T>.renderAll(
         view: RecyclerView,
-        subscribeScheduler: Scheduler = io(),
-        observeScheduler: Scheduler = mainThread(),
         action: GroupAdapter<GroupieViewHolder>.(List<ViewObject>) -> Unit
     ) {
-        onReceive(subscribeScheduler, observeScheduler) {
+        subscribeAndDispose {
             action(adapter, map { it.toViewObject() })
             view.adapter = adapter
         }
