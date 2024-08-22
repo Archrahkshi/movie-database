@@ -16,9 +16,9 @@ class SearchItem(
         with(viewBinding) {
             searchItemPoster.loadFromPath(content.posterPath, POSTER_WIDTH)
             searchItemTitle.text = content.title
-            searchItemRating.text =
-                searchItemRating.context.getString(R.string.imdb_rating, content.voteAverage)
+            searchItemRating.text = content.voteAverage
             searchItem.setOnClickListener { onClick(content) }
+            searchItemYear.text = content.year
         }
     }
 

@@ -1,6 +1,7 @@
 package com.archrahkshi.moviedatabase.network.responses
 
 import com.archrahkshi.moviedatabase.data.ViewObject
+import java.util.Locale
 import com.archrahkshi.moviedatabase.data.Actor as DataActor
 import com.archrahkshi.moviedatabase.data.BelongsToCollection as DataBelongsToCollection
 import com.archrahkshi.moviedatabase.data.CrewMember as DataCrewMember
@@ -44,7 +45,11 @@ sealed interface Response {
         // Movies.kt
         is Movies -> DataMovies(
             results!!.filter {
-                it.overview != null && it.posterPath != null && it.title != null && it.voteAverage != 0f
+                it.overview != null &&
+                        it.posterPath != null &&
+                        it.title != null &&
+                        it.voteAverage != 0f &&
+                        it.releaseDate != null
             }.map { it.toViewObject() as DataMovie }
         )
         is Dates -> DataDates
@@ -55,7 +60,8 @@ sealed interface Response {
             posterPath!!,
             voteAverage.toStars(),
             title!!,
-            voteAverage
+            String.format(Locale.getDefault(), "%.1f", voteAverage),
+            releaseDate!!.substringBefore('-')
         )
         // TvShows.kt
         is TvShows -> DataTvShows(
