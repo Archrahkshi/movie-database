@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.ViewObject
+import com.archrahkshi.moviedatabase.data.toViewObject
 import com.archrahkshi.moviedatabase.network.responses.Response
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder

@@ -8,6 +8,7 @@ import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.MovieCredits
 import com.archrahkshi.moviedatabase.data.MovieDetails
+import com.archrahkshi.moviedatabase.data.toViewObject
 import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
