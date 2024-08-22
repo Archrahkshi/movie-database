@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.annotation.CallSuper
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -64,6 +66,17 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         subscribeScheduler: Scheduler = io(),
         observeScheduler: Scheduler = mainThread()
     ) = subscribeOn(subscribeScheduler).observeOn(observeScheduler)
+
+    protected fun <T : Any> Single<T>.withProgressBar(
+        progressBar: ProgressBar,
+        vararg viewsToHideWhileLoading: View
+    ) = doOnSubscribe {
+        viewsToHideWhileLoading.forEach { it.isVisible = false }
+        progressBar.isVisible = true
+    }.doFinally {
+        progressBar.isVisible = false
+        viewsToHideWhileLoading.forEach { it.isVisible = true }
+    }
 
     protected fun <T : Any> Observable<T>.onReceive(
         subscribeScheduler: Scheduler = io(),

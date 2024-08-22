@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
@@ -71,7 +70,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     }
 
     private fun setupSearchObserver() {
-        searchBinding.searchToolbar.observeContent().onReceive(action = ::openSearch)
+        searchBinding.searchToolbar.observeSearchContent().onReceive(action = ::openSearch)
     }
 
     private fun openSearch(searchText: String) {
@@ -90,14 +89,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
             listOf(nowPlaying, popular, upcoming)
         }
             .applySchedulers()
-            .doOnSubscribe {
-                binding.feed.isVisible = false
-                binding.feedProgressBar.isVisible = true
-            }
-            .doFinally {
-                binding.feedProgressBar.isVisible = false
-                binding.feed.isVisible = true
-            }
+            .withProgressBar(binding.feedProgressBar, binding.feed)
             .renderAll(binding.feed) { addAll(composeMovieLists(it)) }
     }
 

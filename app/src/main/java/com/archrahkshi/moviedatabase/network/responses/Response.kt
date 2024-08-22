@@ -1,7 +1,6 @@
 package com.archrahkshi.moviedatabase.network.responses
 
 import com.archrahkshi.moviedatabase.data.ViewObject
-import com.archrahkshi.moviedatabase.ui.toStars
 import com.archrahkshi.moviedatabase.data.Actor as DataActor
 import com.archrahkshi.moviedatabase.data.BelongsToCollection as DataBelongsToCollection
 import com.archrahkshi.moviedatabase.data.CrewMember as DataCrewMember
@@ -59,4 +58,7 @@ sealed interface Response {
         )
         is TvShow -> DataTvShow(id, name!!, posterPath!!, voteAverage.toStars())
     }
+
+    // voteAverage from API is 0..10, but rating in RatingBar is 0..5 stars
+    private fun Float.toStars() = this / 2
 }

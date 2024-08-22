@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.MovieCredits
@@ -26,16 +25,11 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
         movieId = requireArguments().getInt(KEY_MOVIE_ID)
         apiClient.getMovieDetails(movieId)
             .applySchedulers()
-            .doOnSubscribe {
-                binding.movieBackdrop.isVisible = false
-                binding.movieDetails.isVisible = false
-                binding.movieDetailsProgressBar.isVisible = true
-            }
-            .doFinally {
-                binding.movieDetailsProgressBar.isVisible = false
-                binding.movieBackdrop.isVisible = true
-                binding.movieDetails.isVisible = true
-            }
+            .withProgressBar(
+                binding.movieDetailsProgressBar,
+                binding.movieBackdrop,
+                binding.movieDetails
+            )
             .subscribeAndDispose {
                 with(toViewObject() as MovieDetails) {
                     with(binding) {
@@ -56,7 +50,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
         apiClient.getMovieCredits(movieId)
             .applySchedulers()
             .render(binding.movieCredits) { credits ->
-            addAll((credits as MovieCredits).cast.map(::ActorItem))
-        }
+                addAll((credits as MovieCredits).cast.map(::ActorItem))
+            }
     }
 }

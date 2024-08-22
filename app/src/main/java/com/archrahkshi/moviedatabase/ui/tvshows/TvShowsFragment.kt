@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
@@ -25,17 +24,10 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
         super.onViewCreated(view, savedInstanceState)
         apiClient.getPopularTvShows()
             .applySchedulers()
-            .doOnSubscribe {
-                binding.tvShows.isVisible = false
-                binding.tvShowsProgressBar.isVisible = true
-            }
-            .doFinally {
-                binding.tvShowsProgressBar.isVisible = false
-                binding.tvShows.isVisible = true
-            }
+            .withProgressBar(binding.tvShowsProgressBar, binding.tvShows)
             .render(binding.tvShows) { shows ->
-            addAll((shows as TvShows).results.map { TvShowItem(it, ::openTvShowDetails) })
-        }
+                addAll((shows as TvShows).results.map { TvShowItem(it, ::openTvShowDetails) })
+            }
     }
 
     private fun openTvShowDetails(tvShow: TvShow) {
