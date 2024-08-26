@@ -70,17 +70,15 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     }
 
     private fun setupSearchObserver() {
-        searchBinding.searchToolbar.observeSearchContent().onReceive(action = ::openSearch)
-    }
-
-    private fun openSearch(searchText: String) {
-        apiClient.searchForMovies(searchText)
-            .applySchedulers()
-            .withProgressBar(binding.feedProgressBar, binding.feed)
-            .render(binding.feed) { movies ->
-                clear()
-                addAll((movies as Movies).results.map { SearchItem(it, ::openMovieDetails) })
-            }
+        searchBinding.searchToolbar.observeSearchContent().onReceive {
+            apiClient.searchForMovies(this)
+                .applySchedulers()
+                .withProgressBar(binding.feed)
+                .render(binding.feed) { movies ->
+                    clear()
+                    addAll((movies as Movies).results.map { SearchItem(it, ::openMovieDetails) })
+                }
+        }
     }
 
     private fun renderMovies() {
@@ -91,7 +89,7 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
             listOf(nowPlaying, popular, upcoming)
         }
             .applySchedulers()
-            .withProgressBar(binding.feedProgressBar, binding.feed)
+            .withProgressBar(binding.feed)
             .renderAll(binding.feed) { addAll(composeMovieLists(it)) }
     }
 

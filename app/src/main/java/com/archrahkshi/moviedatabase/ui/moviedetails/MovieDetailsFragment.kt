@@ -24,11 +24,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
         val movieId = requireArguments().getInt(KEY_MOVIE_ID)
         apiClient.getMovieDetails(movieId)
             .applySchedulers()
-            .withProgressBar(
-                binding.movieDetailsProgressBar,
-                binding.movieBackdrop,
-                binding.movieDetails
-            )
+            .withProgressBar(binding.movieBackdrop, binding.movieDetails)
             .subscribeAndDispose {
                 with(toViewObject() as MovieDetails) {
                     with(binding) {

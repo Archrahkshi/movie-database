@@ -23,7 +23,7 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
         super.onViewCreated(view, savedInstanceState)
         apiClient.getPopularTvShows()
             .applySchedulers()
-            .withProgressBar(binding.tvShowsProgressBar, binding.tvShows)
+            .withProgressBar(binding.tvShows)
             .render(binding.tvShows) { shows ->
                 addAll((shows as TvShows).results.map { TvShowItem(it, ::openTvShowDetails) })
             }
