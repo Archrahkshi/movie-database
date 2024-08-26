@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.archrahkshi.moviedatabase.data.ViewObject
-import com.archrahkshi.moviedatabase.network.responses.Response
+import com.archrahkshi.moviedatabase.databinding.ProgressBarBinding
+import com.archrahkshi.moviedatabase.network.Response
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread
@@ -23,7 +25,9 @@ import timber.log.Timber.Forest.e
 
 abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
     private var _binding: Binding? = null
-    protected val binding: Binding get() = _binding!!
+    protected val binding get() = _binding!!
+    private var _progressBarBinding: ProgressBarBinding? = null
+    private val progressBarBinding get() = _progressBarBinding!!
     private val adapter by lazy<GroupAdapter<GroupieViewHolder>>(::GroupAdapter)
     private val compositeDisposable by lazy(::CompositeDisposable)
 
@@ -36,6 +40,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = inflateBinding(inflater, container)
+        _progressBarBinding = ProgressBarBinding.bind(binding.root)
         return binding.root
     }
 
@@ -49,11 +54,31 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        _progressBarBinding = null
         adapter.clear()
     }
 
     private fun addToCompositeDisposable(disposable: Disposable) {
         compositeDisposable.add(disposable)
+    }
+
+    protected fun <T : Any> Single<T>.subscribeAndDispose(action: T.() -> Unit) {
+        addToCompositeDisposable(subscribe(action, ::e))
+    }
+
+    protected fun <T : Any> Single<T>.applySchedulers(
+        subscribeScheduler: Scheduler = io(),
+        observeScheduler: Scheduler = mainThread()
+    ) = subscribeOn(subscribeScheduler).observeOn(observeScheduler)
+
+    protected fun <T : Any> Single<T>.withProgressBar(
+        vararg viewsToHideWhileLoading: View
+    ) = doOnSubscribe {
+        viewsToHideWhileLoading.forEach { it.isVisible = false }
+        progressBarBinding.progressBar.isVisible = true
+    }.doFinally {
+        progressBarBinding.progressBar.isVisible = false
+        viewsToHideWhileLoading.forEach { it.isVisible = true }
     }
 
     protected fun <T : Any> Observable<T>.onReceive(
@@ -66,26 +91,23 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         )
     }
 
-    protected fun <T : Response> Single<T>.onReceive(
-        subscribeScheduler: Scheduler = io(),
-        observeScheduler: Scheduler = mainThread(),
-        action: T.() -> Unit
-    ) {
-        addToCompositeDisposable(
-            subscribeOn(subscribeScheduler).observeOn(observeScheduler).subscribe(action, ::e)
-        )
-    }
-
     protected fun <T : Response> Single<T>.render(
         view: RecyclerView,
-        subscribeScheduler: Scheduler = io(),
-        observeScheduler: Scheduler = mainThread(),
         action: GroupAdapter<GroupieViewHolder>.(ViewObject) -> Unit
     ) {
-        onReceive(subscribeScheduler, observeScheduler) {
-            view.adapter = adapter.also { groupAdapter ->
-                action(groupAdapter, this.toViewObject())
-            }
+        subscribeAndDispose {
+            action(adapter, toViewObject())
+            view.adapter = adapter
+        }
+    }
+
+    protected fun <T : List<Response>> Single<T>.renderAll(
+        view: RecyclerView,
+        action: GroupAdapter<GroupieViewHolder>.(List<ViewObject>) -> Unit
+    ) {
+        subscribeAndDispose {
+            action(adapter, map { it.toViewObject() })
+            view.adapter = adapter
         }
     }
 }

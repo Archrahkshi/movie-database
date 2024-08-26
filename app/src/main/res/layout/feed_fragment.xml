@@ -3,19 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blueDark"
     android:fitsSystemWindows="true">
 
-    <include
-        layout="@layout/feed_header" />
+    <include layout="@layout/feed_header" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movies_recycler_view"
+        android:id="@+id/feed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blueDark"
         android:overScrollMode="never"
         android:scrollbars="vertical"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/item_card_container" />
+        tools:listitem="@layout/item_card_container"
+        tools:visibility="visible" />
+
+    <include layout="@layout/progress_bar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

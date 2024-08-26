@@ -1,6 +1,7 @@
 package com.archrahkshi.moviedatabase.ui.feed
 
 import android.view.View
+import android.view.View.OnClickListener
 import com.archrahkshi.moviedatabase.BuildConfig.POSTER_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
@@ -10,14 +11,14 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class MovieItem(
     private val content: Movie,
-    private val onClick: (movie: Movie) -> Unit
+    private val onClick: OnClickListener
 ) : BindableItem<ItemCardBinding>() {
     override fun bind(viewBinding: ItemCardBinding, position: Int) {
         with(viewBinding) {
             moviePoster.loadFromPath(content.posterPath, POSTER_WIDTH)
             movieTitle.text = content.title
-            movieRating.rating = content.rating
-            movieCard.setOnClickListener { onClick(content) }
+            movieRating.rating = content.ratingInStars
+            movieCard.setOnClickListener(onClick)
         }
     }
 

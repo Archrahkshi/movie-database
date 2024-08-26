@@ -1,13 +1,21 @@
 package com.archrahkshi.moviedatabase.network.responses
 
+import com.archrahkshi.moviedatabase.network.Response
 import kotlinx.serialization.Serializable
+import com.archrahkshi.moviedatabase.data.Actor as DataActor
+import com.archrahkshi.moviedatabase.data.CrewMember as DataCrewMember
+import com.archrahkshi.moviedatabase.data.MovieCredits as DataMovieCredits
 
 @Serializable
 data class MovieCredits(
     val id: Int = 0,
     val cast: List<Actor>?,
     val crew: List<CrewMember>?
-) : Response
+) : Response {
+    override fun toViewObject() = DataMovieCredits(
+        cast.orEmpty().filter { it.name != null }.map { it.toViewObject() }
+    )
+}
 
 @Serializable
 data class Actor(
@@ -23,7 +31,9 @@ data class Actor(
     val originalName: String?,
     val popularity: Float = 0f,
     val profilePath: String?
-) : Response
+) : Response {
+    override fun toViewObject() = DataActor(name!!, profilePath)
+}
 
 @Serializable
 data class CrewMember(
@@ -38,4 +48,6 @@ data class CrewMember(
     val originalName: String?,
     val popularity: Float = 0f,
     val profilePath: String?
-) : Response
+) : Response {
+    override fun toViewObject() = DataCrewMember
+}

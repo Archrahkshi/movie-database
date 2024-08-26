@@ -12,13 +12,17 @@ import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.data.Movies
+import com.archrahkshi.moviedatabase.data.ViewObject
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
-import com.archrahkshi.moviedatabase.ui.navOptions
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.UPCOMING
+import com.archrahkshi.moviedatabase.ui.search.SearchItem
+import io.reactivex.rxjava3.core.Single
 
 const val KEY_SEARCH = "search"
 const val KEY_MOVIE_ID = "movieId"
@@ -64,39 +68,51 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupSearchObserver()
-        MovieList.entries.forEach(::renderMovies)
+        renderMovies()
     }
 
     private fun setupSearchObserver() {
-        searchBinding.searchToolbar.observeContent().onReceive(action = ::openSearch)
-    }
-
-    private fun openSearch(searchText: String) {
-        findNavController().navigate(
-            R.id.search_dest,
-            bundleOf(KEY_SEARCH to searchText),
-            navOptions
-        )
-    }
-
-    private fun renderMovies(movieList: MovieList) {
-        apiClient.getMovies(
-            movieList.name.lowercase()
-        ).render(binding.moviesRecyclerView) { movies ->
-            add(
-                MovieCardContainer(
-                    getString(movieList.title),
-                    (movies as Movies).results.map { MovieItem(it, ::openMovieDetails) }
-                )
-            )
+        searchBinding.searchToolbar.observeSearchContent().onReceive {
+            apiClient.searchForMovies(this)
+                .applySchedulers()
+                .withProgressBar(binding.feed)
+                .render(binding.feed) { movies ->
+                    clear()
+                    addAll(
+                        (movies as Movies).results.map { movie ->
+                            SearchItem(movie) { openMovieDetails(movie.id) }
+                        }
+                    )
+                }
         }
     }
 
-    private fun openMovieDetails(movie: Movie) {
+    private fun renderMovies() {
+        val responses = MovieList.entries.associateWith { apiClient.getMovies(it.name.lowercase()) }
+        Single.zip(
+            responses[NOW_PLAYING]!!,
+            responses[POPULAR]!!,
+            responses[UPCOMING]!!
+        ) { nowPlaying, popular, upcoming -> listOf(nowPlaying, popular, upcoming) }
+            .applySchedulers()
+            .withProgressBar(binding.feed)
+            .renderAll(binding.feed) { addAll(composeMovieLists(it)) }
+    }
+
+    private fun composeMovieLists(movieLists: List<ViewObject>) =
+        List(MovieList.entries.size) { index ->
+            MovieCardContainer(
+                getString(MovieList.entries[index].title),
+                (movieLists[index] as Movies).results.map { movie ->
+                    MovieItem(movie) { openMovieDetails(movie.id) }
+                }
+            )
+        }
+
+    private fun openMovieDetails(movieId: Int) {
         findNavController().navigate(
             R.id.movie_details_fragment,
-            bundleOf(KEY_MOVIE_ID to movie.id),
-            navOptions
+            bundleOf(KEY_MOVIE_ID to movieId)
         )
     }
 

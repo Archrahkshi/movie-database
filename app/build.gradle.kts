@@ -56,14 +56,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.ktlint)
-}
-
-ktlint {
-    android = true
-//    ignoreFailures = false
-    outputToConsole = true
-    outputColorName = "RED"
 }
 
 dependencies {
