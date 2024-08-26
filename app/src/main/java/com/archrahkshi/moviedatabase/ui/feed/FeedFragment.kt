@@ -12,13 +12,15 @@ import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.Movie
 import com.archrahkshi.moviedatabase.data.Movies
 import com.archrahkshi.moviedatabase.data.ViewObject
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
+import com.archrahkshi.moviedatabase.ui.feed.MovieList.UPCOMING
 import com.archrahkshi.moviedatabase.ui.search.SearchItem
 import io.reactivex.rxjava3.core.Single
 
@@ -76,18 +78,22 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
                 .withProgressBar(binding.feed)
                 .render(binding.feed) { movies ->
                     clear()
-                    addAll((movies as Movies).results.map { SearchItem(it, ::openMovieDetails) })
+                    addAll(
+                        (movies as Movies).results.map { movie ->
+                            SearchItem(movie) { openMovieDetails(movie.id) }
+                        }
+                    )
                 }
         }
     }
 
     private fun renderMovies() {
-        val responses = Array(MovieList.entries.size) {
-            apiClient.getMovies(MovieList.entries[it].name.lowercase())
-        }
-        Single.zip(responses[0], responses[1], responses[2]) { nowPlaying, popular, upcoming ->
-            listOf(nowPlaying, popular, upcoming)
-        }
+        val responses = MovieList.entries.associateWith { apiClient.getMovies(it.name.lowercase()) }
+        Single.zip(
+            responses[NOW_PLAYING]!!,
+            responses[POPULAR]!!,
+            responses[UPCOMING]!!
+        ) { nowPlaying, popular, upcoming -> listOf(nowPlaying, popular, upcoming) }
             .applySchedulers()
             .withProgressBar(binding.feed)
             .renderAll(binding.feed) { addAll(composeMovieLists(it)) }
@@ -97,15 +103,16 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
         List(MovieList.entries.size) { index ->
             MovieCardContainer(
                 getString(MovieList.entries[index].title),
-                (movieLists[index] as Movies).results.map { MovieItem(it, ::openMovieDetails) }
+                (movieLists[index] as Movies).results.map { movie ->
+                    MovieItem(movie) { openMovieDetails(movie.id) }
+                }
             )
         }
 
-    private fun openMovieDetails(movie: Movie) {
+    private fun openMovieDetails(movieId: Int) {
         findNavController().navigate(
             R.id.movie_details_fragment,
-            bundleOf(KEY_MOVIE_ID to movie.id),
-            navOptions
+            bundleOf(KEY_MOVIE_ID to movieId)
         )
     }
 

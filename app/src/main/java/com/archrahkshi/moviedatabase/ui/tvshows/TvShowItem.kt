@@ -1,6 +1,7 @@
 package com.archrahkshi.moviedatabase.ui.tvshows
 
 import android.view.View
+import android.view.View.OnClickListener
 import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.TvShow
@@ -10,14 +11,14 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class TvShowItem(
     private val content: TvShow,
-    private val onClick: (tvShow: TvShow) -> Unit
+    private val onClick: OnClickListener
 ) : BindableItem<ItemTvShowBinding>() {
     override fun bind(viewBinding: ItemTvShowBinding, position: Int) {
         with(viewBinding) {
             tvShowPreview.loadFromPath(content.posterPath, BACKDROP_WIDTH)
             tvShowTitle.text = content.name
             tvShowRating.rating = content.ratingInStars
-            itemTvShow.setOnClickListener { onClick(content) }
+            itemTvShow.setOnClickListener(onClick)
         }
     }
 

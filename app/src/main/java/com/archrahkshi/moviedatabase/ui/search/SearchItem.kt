@@ -1,6 +1,7 @@
 package com.archrahkshi.moviedatabase.ui.search
 
 import android.view.View
+import android.view.View.OnClickListener
 import com.archrahkshi.moviedatabase.BuildConfig.POSTER_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.Movie
@@ -10,14 +11,14 @@ import com.xwray.groupie.viewbinding.BindableItem
 
 class SearchItem(
     private val content: Movie,
-    private val onClick: (Movie) -> Unit
+    private val onClick: OnClickListener
 ) : BindableItem<SearchItemBinding>() {
     override fun bind(viewBinding: SearchItemBinding, position: Int) {
         with(viewBinding) {
             searchItemPoster.loadFromPath(content.posterPath, POSTER_WIDTH)
             searchItemTitle.text = content.title
             searchItemRating.text = content.voteAverage
-            searchItem.setOnClickListener { onClick(content) }
+            searchItem.setOnClickListener(onClick)
             searchItemYear.text = content.year
         }
     }

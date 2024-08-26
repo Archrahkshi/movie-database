@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.TvShow
 import com.archrahkshi.moviedatabase.data.TvShows
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
@@ -24,16 +23,19 @@ class TvShowsFragment : BaseFragment<TvShowsFragmentBinding>() {
         apiClient.getPopularTvShows()
             .applySchedulers()
             .withProgressBar(binding.tvShows)
-            .render(binding.tvShows) { shows ->
-                addAll((shows as TvShows).results.map { TvShowItem(it, ::openTvShowDetails) })
+            .render(binding.tvShows) { tvShows ->
+                addAll(
+                    (tvShows as TvShows).results.map { tvShow ->
+                        TvShowItem(tvShow) { openTvShowDetails(tvShow.id) }
+                    }
+                )
             }
     }
 
-    private fun openTvShowDetails(tvShow: TvShow) {
+    private fun openTvShowDetails(tvShowId: Int) {
         findNavController().navigate(
             R.id.tv_show_details_fragment,
-            bundleOf(KEY_TV_SHOW_ID to tvShow.id),
-            navOptions
+            bundleOf(KEY_TV_SHOW_ID to tvShowId)
         )
     }
 }
