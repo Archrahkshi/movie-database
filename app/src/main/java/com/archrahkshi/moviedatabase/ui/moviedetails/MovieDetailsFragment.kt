@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.MovieCredits
-import com.archrahkshi.moviedatabase.data.MovieDetails
-import com.archrahkshi.moviedatabase.data.toViewObject
 import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
 import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
@@ -26,7 +24,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
             .applySchedulers()
             .withProgressBar(binding.movieBackdrop, binding.movieDetails)
             .subscribeAndDispose {
-                with(toViewObject() as MovieDetails) {
+                with(toViewObject()) {
                     with(binding) {
                         movieBackdrop.loadFromPath(background, BACKDROP_WIDTH)
                         movieTitleDetailed.text = title

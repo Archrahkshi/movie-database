@@ -1,6 +1,12 @@
 package com.archrahkshi.moviedatabase.network.responses
 
+import com.archrahkshi.moviedatabase.network.Response
+import com.archrahkshi.moviedatabase.network.toStars
 import kotlinx.serialization.Serializable
+import java.util.Locale
+import com.archrahkshi.moviedatabase.data.Dates as DataDates
+import com.archrahkshi.moviedatabase.data.Movie as DataMovie
+import com.archrahkshi.moviedatabase.data.Movies as DataMovies
 
 @Serializable
 data class Movies(
@@ -9,10 +15,22 @@ data class Movies(
     val results: List<Movie>?,
     val totalPages: Int = 0,
     val totalResults: Int = 0
-) : Response
+) : Response {
+    override fun toViewObject() = DataMovies(
+        results!!.filter {
+            it.overview != null &&
+                    it.posterPath != null &&
+                    it.title != null &&
+                    it.voteAverage != 0f &&
+                    it.releaseDate != null
+        }.map { it.toViewObject() }
+    )
+}
 
 @Serializable
-data class Dates(val maximum: String, val minimum: String) : Response
+data class Dates(val maximum: String, val minimum: String) : Response {
+    override fun toViewObject() = DataDates
+}
 
 @Serializable
 data class Movie(
@@ -30,4 +48,15 @@ data class Movie(
     val video: Boolean = true,
     val voteAverage: Float = 0f,
     val voteCount: Int = 0
-) : Response
+) : Response {
+    override fun toViewObject() = DataMovie(
+        backdropPath,
+        id,
+        overview!!,
+        posterPath!!,
+        voteAverage.toStars(),
+        title!!,
+        String.format(Locale.getDefault(), "%.1f", voteAverage),
+        releaseDate!!.substringBefore('-')
+    )
+}

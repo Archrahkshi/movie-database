@@ -1,6 +1,10 @@
 package com.archrahkshi.moviedatabase.network.responses
 
+import com.archrahkshi.moviedatabase.network.Response
+import com.archrahkshi.moviedatabase.network.toStars
 import kotlinx.serialization.Serializable
+import com.archrahkshi.moviedatabase.data.TvShow as DataTvShow
+import com.archrahkshi.moviedatabase.data.TvShows as DataTvShows
 
 @Serializable
 data class TvShows(
@@ -8,7 +12,13 @@ data class TvShows(
     val results: List<TvShow>?,
     val totalPages: Int = 0,
     val totalResults: Int = 0
-) : Response
+) : Response {
+    override fun toViewObject() = DataTvShows(
+        results!!.filter {
+            it.id != 0 && it.name != null && it.posterPath != null && it.voteAverage != 0f
+        }.map { it.toViewObject() }
+    )
+}
 
 @Serializable
 data class TvShow(
@@ -26,4 +36,6 @@ data class TvShow(
     val posterPath: String?,
     val voteAverage: Float = 0f,
     val voteCount: Int = 0
-) : Response
+) : Response {
+    override fun toViewObject() = DataTvShow(id, name!!, posterPath!!, voteAverage.toStars())
+}
