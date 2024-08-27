@@ -32,7 +32,7 @@ data class Actor(
     val popularity: Float = 0f,
     val profilePath: String?
 ) : Response {
-    override fun toViewObject() = DataActor(name!!, profilePath)
+    override fun toViewObject() = DataActor(id, name!!, profilePath)
 }
 
 @Serializable

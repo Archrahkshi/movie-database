@@ -56,6 +56,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
 }
 
 dependencies {
@@ -98,4 +99,10 @@ dependencies {
     implementation(libs.retrofit.adapter.rxjava3)
     implementation(libs.rxandroid)
     implementation(libs.rxjava)
+
+    ksp(libs.room.compiler)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.rxjava3)
 }

@@ -7,6 +7,7 @@ groupieVersion = "2.10.1"
 junitVersion = "4.13.2"
 kotlinVersion = "2.0.10"
 kotlinxSerializationJsonVersion = "1.7.1"
+kspVersion = "2.0.20-1.0.24"
 lifecycleExtensionVersion = "2.2.0"
 lifecycleVersion = "2.8.4"
 loggingInterceptorVersion = "4.12.0"
@@ -19,6 +20,7 @@ recyclerviewVersion = "1.3.2"
 retrofitAdapterRxjava3Version = "2.11.0"
 retrofitKotlinxSerializationConverterVersion = "1.0.0"
 retrofitVersion = "2.11.0"
+roomVersion = "2.6.1"
 runnerVersion = "1.6.2"
 rxandroidVersion = "3.0.2"
 rxjavaVersion = "3.1.9"
@@ -49,6 +51,10 @@ recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "r
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 retrofit-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofitAdapterRxjava3Version" }
 retrofit-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationConverterVersion" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
+room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomVersion" }
 runner = { module = "androidx.test:runner", version.ref = "runnerVersion" }
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroidVersion" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjavaVersion" }
@@ -58,3 +64,4 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersio
 androidApplication = { id = "com.android.application", version.ref = "gradleVersion" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinVersion" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinVersion" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
