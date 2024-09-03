@@ -1,12 +1,12 @@
-package com.archrahkshi.moviedatabase.network.responses
+package com.archrahkshi.moviedatabase.data.network.responses
 
-import com.archrahkshi.moviedatabase.network.Response
-import com.archrahkshi.moviedatabase.network.toStars
+import com.archrahkshi.moviedatabase.data.network.Response
+import com.archrahkshi.moviedatabase.data.network.toStars
 import kotlinx.serialization.Serializable
 import java.util.Locale
-import com.archrahkshi.moviedatabase.data.Dates as DataDates
-import com.archrahkshi.moviedatabase.data.Movie as DataMovie
-import com.archrahkshi.moviedatabase.data.Movies as DataMovies
+import com.archrahkshi.moviedatabase.data.vo.Dates as DataDates
+import com.archrahkshi.moviedatabase.data.vo.Movie as DataMovie
+import com.archrahkshi.moviedatabase.data.vo.Movies as DataMovies
 
 @Serializable
 data class Movies(

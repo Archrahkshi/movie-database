@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.MovieCredits
+import com.archrahkshi.moviedatabase.data.network.apiClient
+import com.archrahkshi.moviedatabase.data.vo.MovieCredits
 import com.archrahkshi.moviedatabase.databinding.MovieDetailsFragmentBinding
-import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.feed.KEY_MOVIE_ID
 import com.archrahkshi.moviedatabase.ui.loadFromPath
@@ -26,7 +26,7 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
             .subscribeAndDispose {
                 with(toViewObject()) {
                     with(binding) {
-                        movieBackdrop.loadFromPath(background, BACKDROP_WIDTH)
+                        movieBackdrop.loadFromPath(backdropPath ?: posterPath, BACKDROP_WIDTH)
                         movieTitleDetailed.text = title
                         movieRatingDetailed.text = getString(R.string.imdb_rating, voteAverage)
                         movieDescription.text = overview

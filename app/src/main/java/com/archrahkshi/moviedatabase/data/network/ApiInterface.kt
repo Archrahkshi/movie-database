@@ -1,12 +1,12 @@
-package com.archrahkshi.moviedatabase.network
+package com.archrahkshi.moviedatabase.data.network
 
 import com.archrahkshi.moviedatabase.BuildConfig.API_KEY
 import com.archrahkshi.moviedatabase.BuildConfig.BASE_URL
 import com.archrahkshi.moviedatabase.BuildConfig.DEBUG
-import com.archrahkshi.moviedatabase.network.responses.MovieCredits
-import com.archrahkshi.moviedatabase.network.responses.MovieDetails
-import com.archrahkshi.moviedatabase.network.responses.Movies
-import com.archrahkshi.moviedatabase.network.responses.TvShows
+import com.archrahkshi.moviedatabase.data.network.responses.MovieCredits
+import com.archrahkshi.moviedatabase.data.network.responses.MovieDetails
+import com.archrahkshi.moviedatabase.data.network.responses.Movies
+import com.archrahkshi.moviedatabase.data.network.responses.TvShows
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.reactivex.rxjava3.core.Single
 import kotlinx.serialization.ExperimentalSerializationApi

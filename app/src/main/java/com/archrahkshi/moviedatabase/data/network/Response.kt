@@ -1,6 +1,6 @@
-package com.archrahkshi.moviedatabase.network
+package com.archrahkshi.moviedatabase.data.network
 
-import com.archrahkshi.moviedatabase.data.ViewObject
+import com.archrahkshi.moviedatabase.data.vo.ViewObject
 
 interface Response {
     fun toViewObject(): ViewObject

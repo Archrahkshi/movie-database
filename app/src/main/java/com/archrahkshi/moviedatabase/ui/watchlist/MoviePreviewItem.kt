@@ -2,7 +2,7 @@ package com.archrahkshi.moviedatabase.ui.watchlist
 
 import android.view.View
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.Movie
+import com.archrahkshi.moviedatabase.data.vo.Movie
 import com.archrahkshi.moviedatabase.databinding.ItemSmallBinding
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.viewbinding.BindableItem

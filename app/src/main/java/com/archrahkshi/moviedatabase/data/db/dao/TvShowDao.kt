@@ -1,22 +1,22 @@
-package com.archrahkshi.moviedatabase.db.dao
+package com.archrahkshi.moviedatabase.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import com.archrahkshi.moviedatabase.db.entities.Movie
+import com.archrahkshi.moviedatabase.data.db.entities.TvShow
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 
 @Dao
-interface MovieDao {
+interface TvShowDao {
     @Insert(onConflict = REPLACE)
-    fun insert(vararg movie: Movie): Completable
+    fun insert(vararg tvShow: TvShow): Completable
 
     @Delete
-    fun delete(movie: Movie): Completable
+    fun delete(tvShow: TvShow): Completable
 
-    @Query("SELECT * FROM movie")
-    fun getAll(): Observable<Array<Movie>>
+    @Query("SELECT * FROM tvshow")
+    fun getAll(): Observable<Array<TvShow>>
 }

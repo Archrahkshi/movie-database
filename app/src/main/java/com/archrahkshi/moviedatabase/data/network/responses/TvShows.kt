@@ -1,10 +1,10 @@
-package com.archrahkshi.moviedatabase.network.responses
+package com.archrahkshi.moviedatabase.data.network.responses
 
-import com.archrahkshi.moviedatabase.network.Response
-import com.archrahkshi.moviedatabase.network.toStars
+import com.archrahkshi.moviedatabase.data.network.Response
+import com.archrahkshi.moviedatabase.data.network.toStars
 import kotlinx.serialization.Serializable
-import com.archrahkshi.moviedatabase.data.TvShow as DataTvShow
-import com.archrahkshi.moviedatabase.data.TvShows as DataTvShows
+import com.archrahkshi.moviedatabase.data.vo.TvShow as DataTvShow
+import com.archrahkshi.moviedatabase.data.vo.TvShows as DataTvShows
 
 @Serializable
 data class TvShows(

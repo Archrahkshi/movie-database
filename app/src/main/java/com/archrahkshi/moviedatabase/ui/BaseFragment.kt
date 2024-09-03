@@ -9,9 +9,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.archrahkshi.moviedatabase.data.ViewObject
+import com.archrahkshi.moviedatabase.data.network.Response
+import com.archrahkshi.moviedatabase.data.vo.ViewObject
 import com.archrahkshi.moviedatabase.databinding.ProgressBarBinding
-import com.archrahkshi.moviedatabase.network.Response
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread
@@ -103,10 +103,10 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
 
     protected fun <T : List<Response>> Single<T>.renderAll(
         view: RecyclerView,
-        action: GroupAdapter<GroupieViewHolder>.(List<ViewObject>) -> Unit
+        action: List<ViewObject>.(GroupAdapter<GroupieViewHolder>) -> Unit
     ) {
         subscribeAndDispose {
-            action(adapter, map { it.toViewObject() })
+            action(map { it.toViewObject() }, adapter)
             view.adapter = adapter
         }
     }

@@ -1,10 +1,10 @@
-package com.archrahkshi.moviedatabase.network.responses
+package com.archrahkshi.moviedatabase.data.network.responses
 
-import com.archrahkshi.moviedatabase.network.Response
+import com.archrahkshi.moviedatabase.data.network.Response
 import kotlinx.serialization.Serializable
-import com.archrahkshi.moviedatabase.data.Actor as DataActor
-import com.archrahkshi.moviedatabase.data.CrewMember as DataCrewMember
-import com.archrahkshi.moviedatabase.data.MovieCredits as DataMovieCredits
+import com.archrahkshi.moviedatabase.data.vo.Actor as DataActor
+import com.archrahkshi.moviedatabase.data.vo.CrewMember as DataCrewMember
+import com.archrahkshi.moviedatabase.data.vo.MovieCredits as DataMovieCredits
 
 @Serializable
 data class MovieCredits(

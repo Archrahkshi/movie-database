@@ -1,15 +1,15 @@
-package com.archrahkshi.moviedatabase.db
+package com.archrahkshi.moviedatabase.data.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.archrahkshi.moviedatabase.db.dao.ActorDao
-import com.archrahkshi.moviedatabase.db.dao.MovieDao
-import com.archrahkshi.moviedatabase.db.dao.TvShowDao
-import com.archrahkshi.moviedatabase.db.entities.Actor
-import com.archrahkshi.moviedatabase.db.entities.Movie
-import com.archrahkshi.moviedatabase.db.entities.TvShow
+import com.archrahkshi.moviedatabase.data.db.dao.ActorDao
+import com.archrahkshi.moviedatabase.data.db.dao.MovieDao
+import com.archrahkshi.moviedatabase.data.db.dao.TvShowDao
+import com.archrahkshi.moviedatabase.data.db.entities.Actor
+import com.archrahkshi.moviedatabase.data.db.entities.Movie
+import com.archrahkshi.moviedatabase.data.db.entities.TvShow
 
 @Database(entities = [Actor::class, Movie::class, TvShow::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

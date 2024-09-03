@@ -3,7 +3,7 @@ package com.archrahkshi.moviedatabase.ui.moviedetails
 import android.view.View
 import com.archrahkshi.moviedatabase.BuildConfig.PROFILE_WIDTH
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.Actor
+import com.archrahkshi.moviedatabase.data.vo.Actor
 import com.archrahkshi.moviedatabase.databinding.ActorItemBinding
 import com.archrahkshi.moviedatabase.ui.loadFromPath
 import com.xwray.groupie.viewbinding.BindableItem

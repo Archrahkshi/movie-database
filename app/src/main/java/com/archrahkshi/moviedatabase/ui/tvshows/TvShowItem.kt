@@ -4,7 +4,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import com.archrahkshi.moviedatabase.BuildConfig.BACKDROP_WIDTH
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.TvShow
+import com.archrahkshi.moviedatabase.data.vo.TvShow
 import com.archrahkshi.moviedatabase.databinding.ItemTvShowBinding
 import com.archrahkshi.moviedatabase.ui.loadFromPath
 import com.xwray.groupie.viewbinding.BindableItem

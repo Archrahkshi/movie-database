@@ -4,7 +4,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import com.archrahkshi.moviedatabase.BuildConfig.POSTER_WIDTH
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.Movie
+import com.archrahkshi.moviedatabase.data.vo.Movie
 import com.archrahkshi.moviedatabase.databinding.ItemCardBinding
 import com.archrahkshi.moviedatabase.ui.loadFromPath
 import com.xwray.groupie.viewbinding.BindableItem

@@ -1,14 +1,14 @@
-package com.archrahkshi.moviedatabase.network.responses
+package com.archrahkshi.moviedatabase.data.network.responses
 
-import com.archrahkshi.moviedatabase.network.Response
+import com.archrahkshi.moviedatabase.data.network.Response
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import com.archrahkshi.moviedatabase.data.BelongsToCollection as DataBelongsToCollection
-import com.archrahkshi.moviedatabase.data.Genre as DataGenre
-import com.archrahkshi.moviedatabase.data.MovieDetails as DataMovieDetails
-import com.archrahkshi.moviedatabase.data.ProductionCompany as DataProductionCompany
-import com.archrahkshi.moviedatabase.data.ProductionCountry as DataProductionCountry
-import com.archrahkshi.moviedatabase.data.SpokenLanguage as DataSpokenLanguage
+import com.archrahkshi.moviedatabase.data.vo.BelongsToCollection as DataBelongsToCollection
+import com.archrahkshi.moviedatabase.data.vo.Genre as DataGenre
+import com.archrahkshi.moviedatabase.data.vo.MovieDetails as DataMovieDetails
+import com.archrahkshi.moviedatabase.data.vo.ProductionCompany as DataProductionCompany
+import com.archrahkshi.moviedatabase.data.vo.ProductionCountry as DataProductionCountry
+import com.archrahkshi.moviedatabase.data.vo.SpokenLanguage as DataSpokenLanguage
 
 @Serializable
 data class MovieDetails(
@@ -40,9 +40,11 @@ data class MovieDetails(
     val voteCount: Int = 0
 ) : Response {
     override fun toViewObject() = DataMovieDetails(
-        backdropPath ?: posterPath!!,
+        backdropPath,
+        id,
         genres.orEmpty().map { it.toViewObject() }.joinToString { it.name },
         overview!!,
+        posterPath!!,
         productionCompanies.orEmpty().map { it.toViewObject() }.joinToString { it.name },
         title!!,
         voteAverage,

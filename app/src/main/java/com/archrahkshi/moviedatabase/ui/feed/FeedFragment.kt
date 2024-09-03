@@ -12,11 +12,10 @@ import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.Movies
-import com.archrahkshi.moviedatabase.data.ViewObject
+import com.archrahkshi.moviedatabase.data.network.apiClient
+import com.archrahkshi.moviedatabase.data.vo.Movies
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
 import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
-import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
@@ -96,16 +95,18 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
         ) { nowPlaying, popular, upcoming -> listOf(nowPlaying, popular, upcoming) }
             .applySchedulers()
             .withProgressBar(binding.feed)
-            .renderAll(binding.feed) { addAll(composeMovieLists(it)) }
+            .renderAll(binding.feed) { adapter ->
+                adapter.addAll(composeFeed(map { it as Movies }))
+            }
     }
 
-    private fun composeMovieLists(movieLists: List<ViewObject>) =
+    private fun composeFeed(movieLists: List<Movies>) =
         List(MovieList.entries.size) { index ->
             MovieCardContainer(
                 getString(MovieList.entries[index].title),
-                (movieLists[index] as Movies).results.map { movie ->
-                    MovieItem(movie) { openMovieDetails(movie.id) }
-                }
+                movieLists[index].results.onEach {
+                    it.saveToDatabase()
+                }.map { movie -> MovieItem(movie) { openMovieDetails(movie.id) } }
             )
         }
 

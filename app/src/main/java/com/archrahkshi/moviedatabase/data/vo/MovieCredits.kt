@@ -1,4 +1,4 @@
-package com.archrahkshi.moviedatabase.data
+package com.archrahkshi.moviedatabase.data.vo
 
 data class MovieCredits(val cast: List<Actor>) : ViewObject
 

@@ -1,4 +1,4 @@
-package com.archrahkshi.moviedatabase.db.entities
+package com.archrahkshi.moviedatabase.data.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

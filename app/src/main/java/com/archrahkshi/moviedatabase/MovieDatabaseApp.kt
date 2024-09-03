@@ -1,11 +1,13 @@
 package com.archrahkshi.moviedatabase
 
 import android.app.Application
+import android.content.Context
 import timber.log.Timber
 
 class MovieDatabaseApp : Application() {
     override fun onCreate() {
         super.onCreate()
+        appContext = applicationContext
         instance = this
         initDebugTools()
     }
@@ -21,6 +23,7 @@ class MovieDatabaseApp : Application() {
     }
 
     companion object {
+        lateinit var appContext: Context
         var instance: MovieDatabaseApp? = null
             private set
     }
