@@ -1,7 +1,6 @@
 package com.archrahkshi.moviedatabase.data.network.responses
 
 import com.archrahkshi.moviedatabase.data.network.Response
-import com.archrahkshi.moviedatabase.data.network.toStars
 import kotlinx.serialization.Serializable
 import com.archrahkshi.moviedatabase.data.vo.TvShow as DataTvShow
 import com.archrahkshi.moviedatabase.data.vo.TvShows as DataTvShows

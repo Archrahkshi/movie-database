@@ -5,8 +5,9 @@ espressoVersion = "3.6.1"
 gradleVersion = "8.5.2"
 groupieVersion = "2.10.1"
 junitVersion = "4.13.2"
-kotlinVersion = "2.0.10"
-kotlinxSerializationJsonVersion = "1.7.1"
+kotlinVersion = "2.0.20"
+kotlinxCoroutinesAndroidVersion = "1.9.0-RC.2"
+kotlinxSerializationJsonVersion = "1.7.2"
 kspVersion = "2.0.20-1.0.24"
 lifecycleExtensionVersion = "2.2.0"
 lifecycleVersion = "2.8.4"
@@ -36,6 +37,7 @@ groupie = { module = "com.github.lisawray.groupie:groupie", version.ref = "group
 groupie-viewbinding = { module = "com.github.lisawray.groupie:groupie-viewbinding", version.ref = "groupieVersion" }
 junit = { module = "junit:junit", version.ref = "junitVersion" }
 kotlin-stdlib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlinVersion" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroidVersion" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJsonVersion" }
 lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensionVersion" }
 lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleVersion" }

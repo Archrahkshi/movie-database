@@ -13,22 +13,36 @@ data class MovieDetails(
     val studio: String,
     val title: String,
     val voteAverage: Float,
-    val year: String
+    val year: String,
+    var isFavorite: Boolean,
+    var isFeedCache: Boolean
 ) : ViewObject {
-    override fun saveToDatabase() {
-        AppDatabase.getInstance(appContext).movieDao().insert(
-            Movie(
-                backdropPath,
-                id,
-                genre,
-                overview,
-                posterPath,
-                studio,
-                title,
-                voteAverage,
-                year
-            )
-        )
+    private val db = AppDatabase.getInstance(appContext).movieDao()
+
+    private fun toDbEntity() = Movie(
+        backdropPath,
+        id,
+        isFavorite,
+        isFeedCache,
+        genre,
+        overview,
+        posterPath,
+        studio,
+        title,
+        voteAverage,
+        year
+    )
+
+    suspend fun saveToDatabase() {
+        db.insert(toDbEntity())
+    }
+
+    suspend fun removeFromDatabase() {
+        db.delete(toDbEntity())
+    }
+
+    suspend fun updateLike() {
+        db.updateLike(toDbEntity())
     }
 }
 

@@ -27,6 +27,7 @@ android {
         buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/\"")
         buildConfigField("int", "POSTER_WIDTH", "500")
         buildConfigField("int", "BACKDROP_WIDTH", "1280")
+        buildConfigField("int", "WATCHLIST_ITEM_WIDTH", "342")
         buildConfigField("int", "PROFILE_WIDTH", "185")
     }
 
@@ -105,4 +106,6 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.room.rxjava3)
+
+    implementation(libs.kotlinx.coroutines.android)
 }

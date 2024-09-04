@@ -1,7 +1,6 @@
 package com.archrahkshi.moviedatabase.data.network.responses
 
 import com.archrahkshi.moviedatabase.data.network.Response
-import com.archrahkshi.moviedatabase.data.network.toStars
 import kotlinx.serialization.Serializable
 import java.util.Locale
 import com.archrahkshi.moviedatabase.data.vo.Dates as DataDates

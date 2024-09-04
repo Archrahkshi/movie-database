@@ -3,20 +3,32 @@ package com.archrahkshi.moviedatabase.data.db.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.Companion.REPLACE
+import androidx.room.OnConflictStrategy.Companion.IGNORE
 import androidx.room.Query
+import androidx.room.Update
 import com.archrahkshi.moviedatabase.data.db.entities.Movie
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface MovieDao {
-    @Insert(onConflict = REPLACE)
-    fun insert(vararg movie: Movie): Completable
+    @Insert(onConflict = IGNORE)
+    suspend fun insert(vararg movie: Movie)
+
+    @Update
+    suspend fun updateLike(movie: Movie)
 
     @Delete
-    fun delete(movie: Movie): Completable
+    suspend fun delete(movie: Movie)
 
-    @Query("SELECT * FROM movie")
-    fun getAll(): Observable<Array<Movie>>
+    @Query("SELECT EXISTS(SELECT * FROM movie WHERE id = :id)")
+    fun isMovieSaved(id: Int): Single<Boolean>
+
+    @Query("SELECT * FROM movie WHERE id = :id")
+    fun getMovie(id: Int): Single<Movie>
+
+    @Query("SELECT * FROM movie WHERE isFavorite = 1")
+    fun getFavoriteMovies(): Single<List<Movie>>
+
+    @Query("SELECT * FROM movie WHERE isFeedCache = 1")
+    fun getFeedCache(): Single<List<Movie>>
 }

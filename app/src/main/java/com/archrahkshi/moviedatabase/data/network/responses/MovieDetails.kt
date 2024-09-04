@@ -48,7 +48,9 @@ data class MovieDetails(
         productionCompanies.orEmpty().map { it.toViewObject() }.joinToString { it.name },
         title!!,
         voteAverage,
-        releaseDate.orEmpty().substringBefore('-')
+        releaseDate.orEmpty().substringBefore('-'),
+        isFavorite = false,
+        isFeedCache = false
     )
 }
 

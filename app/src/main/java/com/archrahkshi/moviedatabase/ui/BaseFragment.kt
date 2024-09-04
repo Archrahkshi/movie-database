@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.archrahkshi.moviedatabase.data.DataObject
 import com.archrahkshi.moviedatabase.data.network.Response
 import com.archrahkshi.moviedatabase.data.vo.ViewObject
 import com.archrahkshi.moviedatabase.databinding.ProgressBarBinding
@@ -101,7 +102,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         }
     }
 
-    protected fun <T : List<Response>> Single<T>.renderAll(
+    protected fun <T : List<DataObject>> Single<T>.renderAll(
         view: RecyclerView,
         action: List<ViewObject>.(GroupAdapter<GroupieViewHolder>) -> Unit
     ) {

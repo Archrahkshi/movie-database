@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.network.apiClient
@@ -22,6 +23,7 @@ import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.UPCOMING
 import com.archrahkshi.moviedatabase.ui.search.SearchItem
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.launch
 
 const val KEY_SEARCH = "search"
 const val KEY_MOVIE_ID = "movieId"
@@ -105,7 +107,11 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
             MovieCardContainer(
                 getString(MovieList.entries[index].title),
                 movieLists[index].results.onEach {
-                    it.saveToDatabase()
+                    apiClient.getMovieDetails(it.id).applySchedulers().subscribeAndDispose {
+                        lifecycleScope.launch {
+                            toViewObject().saveToDatabase()
+                        }
+                    }
                 }.map { movie -> MovieItem(movie) { openMovieDetails(movie.id) } }
             )
         }
