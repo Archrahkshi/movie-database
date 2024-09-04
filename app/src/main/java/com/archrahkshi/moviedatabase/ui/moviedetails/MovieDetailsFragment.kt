@@ -28,11 +28,10 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movieId = requireArguments().getInt(KEY_MOVIE_ID)
-        AppDatabase.getInstance(appContext).movieDao().isMovieSaved(
-            movieId
-        ).applySchedulers().subscribeAndDispose {
-            if (this) {
-                AppDatabase.getInstance(appContext).movieDao().getMovie(movieId)
+        val db = AppDatabase.getInstance(appContext).movieDao()
+        lifecycleScope.launch {
+            if (db.isMovieSaved(movieId)) {
+                db.getMovie(movieId)
             } else {
                 apiClient.getMovieDetails(movieId)
             }.applySchedulers().withProgressBar(
