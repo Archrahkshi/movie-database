@@ -53,18 +53,18 @@ class MovieDetailsFragment : BaseFragment<MovieDetailsFragmentBinding>() {
                 movieStudio.text = studio
                 movieGenre.text = genre
                 movieYear.text = year
-            }
-            binding.movieLike.setOnCheckedChangeListener { _, isChecked ->
-                lifecycleScope.launch {
-                    if (isChecked) {
-                        isFavorite = true
-                        updateLike()
-                    } else if (isFeedCache) {
-                        isFavorite = false
-                        updateLike()
-                    } else {
-                        removeFromDatabase()
-                        isFavorite = false
+                movieLike.setOnCheckedChangeListener { _, isChecked ->
+                    lifecycleScope.launch {
+                        if (isChecked) {
+                            isFavorite = true
+                            updateLike()
+                        } else if (isFeedCache) {
+                            isFavorite = false
+                            updateLike()
+                        } else {
+                            removeFromDatabase()
+                            isFavorite = false
+                        }
                     }
                 }
             }

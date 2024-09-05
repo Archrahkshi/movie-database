@@ -28,7 +28,4 @@ interface MovieDao {
 
     @Query("SELECT * FROM movie WHERE isFavorite = 1")
     fun getFavoriteMovies(): Single<List<Movie>>
-
-    @Query("SELECT * FROM movie WHERE isFeedCache = 1")
-    fun getFeedCache(): Single<List<Movie>>
 }
