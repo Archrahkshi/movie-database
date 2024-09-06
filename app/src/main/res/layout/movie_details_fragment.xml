@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blueDark"
     android:fitsSystemWindows="true"
     app:layout_scrollFlags="scroll|enterAlways|exitUntilCollapsed"
     tools:context="com.archrahkshi.moviedatabase.ui.moviedetails.MovieDetailsFragment">
@@ -12,6 +11,7 @@
         android:id="@+id/movieBackdrop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/backdrop_height"
+        android:contentDescription="@string/movie_backdrop"
         android:scaleType="centerCrop"
         android:visibility="invisible"
         tools:srcCompat="@tools:sample/backgrounds/scenic"
@@ -44,13 +44,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Отель Гранд Будапешт" />
+                tools:text="The Grand Budapest Hotel" />
 
             <CheckBox
                 android:id="@+id/movieLike"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/material_margin_normal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:button="@drawable/like_checkbox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +77,7 @@
                 android:textColor="@color/grey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieRatingDetailed"
-                tools:text="Когда-то давно четыре народа жили в мире..." />
+                tools:text="In a cemetery in the former nation of Zubrowka, a woman visits the shrine of a renowned writer, known simply as 'Author', reading his most-cherished book: The Grand Budapest Hotel. The book, written in 1985, recounts the 1968 vacation of the young writer at the once-grand, then-drab hotel. There, he meets its owner, Zero Moustafa, who tells his rags to riches story at dinner." />
 
             <TextView
                 android:id="@+id/movieCreditsHeader"

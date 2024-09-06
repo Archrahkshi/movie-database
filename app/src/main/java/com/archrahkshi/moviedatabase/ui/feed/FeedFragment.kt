@@ -2,21 +2,16 @@ package com.archrahkshi.moviedatabase.ui.feed
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
-import androidx.core.view.MenuProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.network.apiClient
 import com.archrahkshi.moviedatabase.data.vo.Movies
 import com.archrahkshi.moviedatabase.databinding.FeedFragmentBinding
-import com.archrahkshi.moviedatabase.databinding.FeedHeaderBinding
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.NOW_PLAYING
 import com.archrahkshi.moviedatabase.ui.feed.MovieList.POPULAR
@@ -25,7 +20,6 @@ import com.archrahkshi.moviedatabase.ui.search.SearchItem
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.launch
 
-const val KEY_SEARCH = "search"
 const val KEY_MOVIE_ID = "movieId"
 
 private enum class MovieList(@StringRes val title: Int) {
@@ -35,36 +29,8 @@ private enum class MovieList(@StringRes val title: Int) {
 }
 
 class FeedFragment : BaseFragment<FeedFragmentBinding>() {
-    private var _searchBinding: FeedHeaderBinding? = null
-    private val searchBinding get() = _searchBinding!!
-
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FeedFragmentBinding.inflate(inflater, container, false)
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
-        bindHeader()
-        return binding.root
-    }
-
-    private fun bindHeader() {
-        _searchBinding = FeedHeaderBinding.bind(binding.root)
-        requireActivity().addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, inflater: MenuInflater) {
-                    inflater.inflate(R.menu.main_menu, menu)
-                }
-
-                override fun onMenuItemSelected(item: MenuItem): Boolean {
-                    TODO("Not yet implemented")
-                }
-            }
-        )
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,18 +39,22 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     }
 
     private fun setupSearchObserver() {
-        searchBinding.searchToolbar.observeSearchContent().onReceive {
-            apiClient.searchForMovies(this)
-                .applySchedulers()
-                .withProgressBar(binding.feed)
-                .render(binding.feed) { movies ->
-                    clear()
-                    addAll(
-                        (movies as Movies).results.map { movie ->
-                            SearchItem(movie) { openMovieDetails(movie.id) }
-                        }
-                    )
-                }
+        binding.searchToolbar.observeSearchContent().onReceive {
+            if (isEmpty()) {
+                renderMovies()
+            } else {
+                apiClient.searchForMovies(this)
+                    .applySchedulers()
+                    .withProgressBar(binding.feed)
+                    .render(binding.feed) { movies ->
+                        clear()
+                        addAll(
+                            (movies as Movies).results.map { movie ->
+                                SearchItem(movie) { openMovieDetails(movie.id) }
+                            }
+                        )
+                    }
+            }
         }
     }
 
@@ -125,11 +95,6 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
 
     override fun onStop() {
         super.onStop()
-        searchBinding.searchToolbar.clear()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _searchBinding = null
+        binding.searchToolbar.clear()
     }
 }

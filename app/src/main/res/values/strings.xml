@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">Мои фильмы</string>
 
-    <string name="search_hint">Введите название</string>
+    <string name="search_hint">Что будете смотреть сегодня?</string>
 
-    <string name="main_title">Что будете смотреть сегодня?</string>
     <string name="recommended">Рекомендуем</string>
     <string name="popular">Популярные</string>
     <string name="upcoming">Новинки</string>
@@ -30,4 +29,5 @@
     <string name="studio">Студия</string>
     <string name="genre">Жанр</string>
     <string name="year">Год</string>
+    <string name="movie_backdrop">Обложка фильма</string>
 </resources>
