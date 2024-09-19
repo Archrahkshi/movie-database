@@ -8,6 +8,7 @@ import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.network.apiClient
 import com.archrahkshi.moviedatabase.data.vo.Movies
@@ -96,5 +97,9 @@ class FeedFragment : BaseFragment<FeedFragmentBinding>() {
     override fun onStop() {
         super.onStop()
         binding.searchToolbar.clear()
+    }
+
+    companion object {
+        val recycledViewPool = RecycledViewPool()
     }
 }

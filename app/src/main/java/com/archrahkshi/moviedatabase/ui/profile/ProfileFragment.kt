@@ -6,6 +6,7 @@ import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
 import com.archrahkshi.moviedatabase.MovieDatabaseApp.Companion.appContext
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.data.db.AppDatabase
@@ -41,5 +42,9 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding>() {
                     }
                 }.attach()
             }
+    }
+
+    companion object {
+        val recycledViewPool = RecycledViewPool()
     }
 }
