@@ -16,7 +16,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:context=".ui.tvshows.TvShowsFragment"
         tools:itemCount="5"
-        tools:listitem="@layout/item_tv_show"
+        tools:listitem="@layout/tv_show_item"
         tools:visibility="visible" />
 
     <include layout="@layout/progress_bar" />

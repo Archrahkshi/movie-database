@@ -27,6 +27,7 @@ android {
         buildConfigField("String", "IMAGE_BASE_URL", "\"https://image.tmdb.org/t/p/\"")
         buildConfigField("int", "POSTER_WIDTH", "500")
         buildConfigField("int", "BACKDROP_WIDTH", "1280")
+        buildConfigField("int", "WATCHLIST_ITEM_WIDTH", "342")
         buildConfigField("int", "PROFILE_WIDTH", "185")
     }
 
@@ -56,6 +57,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
 }
 
 dependencies {
@@ -98,4 +100,12 @@ dependencies {
     implementation(libs.retrofit.adapter.rxjava3)
     implementation(libs.rxandroid)
     implementation(libs.rxjava)
+
+    ksp(libs.room.compiler)
+    annotationProcessor(libs.room.compiler)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.rxjava3)
+
+    implementation(libs.kotlinx.coroutines.android)
 }

@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.archrahkshi.moviedatabase.R
-import com.archrahkshi.moviedatabase.data.TvShows
+import com.archrahkshi.moviedatabase.data.network.apiClient
+import com.archrahkshi.moviedatabase.data.vo.TvShows
 import com.archrahkshi.moviedatabase.databinding.TvShowsFragmentBinding
-import com.archrahkshi.moviedatabase.network.apiClient
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 
 const val KEY_TV_SHOW_ID = "tvShowId"
