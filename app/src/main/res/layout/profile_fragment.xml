@@ -38,10 +38,9 @@
                 tools:text="User Name" />
 
             <ImageView
-                android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-12dp"
+                android:layout_marginBottom="-13dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_wave" />
 
@@ -66,5 +65,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
+        <ProgressBar
+            android:id="@id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
