@@ -50,6 +50,7 @@
                 android:id="@+id/movieLike"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginEnd="@dimen/material_margin_normal"
                 android:button="@drawable/like_checkbox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -73,7 +74,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/material_margin_normal"
                 android:layout_marginTop="@dimen/material_margin_small"
-                android:layout_marginEnd="@dimen/material_margin_normal"
                 android:textColor="@color/grey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieRatingDetailed"

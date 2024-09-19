@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/search_container"
     android:layout_width="match_parent"
     android:layout_height="@dimen/search_bar_height"
-    android:orientation="horizontal"
-    tools:background="@color/blueDark">
+    android:background="@drawable/search_background"
+    android:orientation="horizontal">
 
     <EditText
         android:id="@+id/search_edit_text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/search_background"
+        android:backgroundTint="@android:color/transparent"
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="@dimen/material_margin_small"
         android:hint="@string/search_hint"
@@ -24,6 +23,7 @@
         android:paddingStart="@dimen/material_margin_small"
         android:paddingEnd="@dimen/material_margin_small"
         android:singleLine="true"
+        android:textColor="@color/blueDark"
         android:textColorHint="@color/grey"
         android:textSize="14sp" />
 
@@ -35,7 +35,6 @@
         android:layout_marginStart="@dimen/material_margin_normal"
         android:layout_marginEnd="@dimen/material_margin_normal"
         android:contentDescription="@string/close"
-        android:src="@drawable/ic_delete"
-        tools:visibility="visible" />
+        android:src="@drawable/ic_delete" />
 
 </LinearLayout>

@@ -7,8 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.ProfileFragmentBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -16,22 +17,13 @@ import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
 class ProfileFragment : Fragment() {
-
     private lateinit var profileTabLayoutTitles: Array<String>
-
     private var _binding: ProfileFragmentBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    private var profilePageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+    private var profilePageChangeCallback = object : OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            Toast.makeText(
-                requireContext(),
-                "Selected position: $position",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), "Selected position: $position", LENGTH_SHORT).show()
         }
     }
 
@@ -51,7 +43,7 @@ class ProfileFragment : Fragment() {
             .load(R.drawable.ic_avatar)
             .transform(CropCircleTransformation())
             .placeholder(R.drawable.ic_avatar)
-            .into(binding.avatar)
+            .into(binding.profileAvatar)
 
         profileTabLayoutTitles = resources.getStringArray(R.array.tab_titles)
 
