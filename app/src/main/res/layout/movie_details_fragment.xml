@@ -50,7 +50,7 @@
                 android:id="@+id/movieLike"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginEnd="@dimen/material_margin_normal"
+                android:layout_marginEnd="@dimen/material_margin_small"
                 android:button="@drawable/like_checkbox"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -70,11 +70,13 @@
 
             <TextView
                 android:id="@+id/movieDescription"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/material_margin_normal"
                 android:layout_marginTop="@dimen/material_margin_small"
+                android:layout_marginEnd="@dimen/material_margin_normal"
                 android:textColor="@color/grey"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieRatingDetailed"
                 tools:text="In a cemetery in the former nation of Zubrowka, a woman visits the shrine of a renowned writer, known simply as 'Author', reading his most-cherished book: The Grand Budapest Hotel. The book, written in 1985, recounts the 1968 vacation of the young writer at the once-grand, then-drab hotel. There, he meets its owner, Zero Moustafa, who tells his rags to riches story at dinner." />
