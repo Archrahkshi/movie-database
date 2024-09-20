@@ -1,48 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/search_container"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:layout_marginLeft="32dp"
-    android:layout_marginRight="32dp"
+    android:layout_height="@dimen/search_bar_height"
+    android:background="@drawable/search_background"
     android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/search_edit_text"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:background="@drawable/search_background">
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/transparent"
+        android:drawableStart="@drawable/ic_search"
+        android:drawablePadding="@dimen/material_margin_small"
+        android:hint="@string/search_hint"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="textShortMessage"
+        android:labelFor="@+id/search"
+        android:maxLines="1"
+        android:paddingStart="@dimen/material_margin_small"
+        android:paddingEnd="@dimen/material_margin_small"
+        android:singleLine="true"
+        android:textColor="@color/blueDark"
+        android:textColorHint="@color/grey"
+        android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/search_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toStartOf="@+id/delete_text_button"
-            android:background="@drawable/search_background"
-            android:drawableStart="@drawable/ic_search"
-            android:drawablePadding="@dimen/material_margin_small"
-            android:imeOptions="actionDone"
-            android:inputType="textShortMessage"
-            android:labelFor="@+id/search"
-            android:maxLines="1"
-            android:paddingStart="@dimen/material_margin_small"
-            android:paddingEnd="@dimen/material_margin_small"
-            android:singleLine="true"
-            android:textColorHint="@color/grey"
-            android:textSize="14sp"
-            tools:hint="@string/search_hint" />
+    <ImageView
+        android:id="@+id/delete_text_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/material_margin_normal"
+        android:layout_marginEnd="@dimen/material_margin_normal"
+        android:contentDescription="@string/close"
+        android:src="@drawable/ic_delete" />
 
-        <ImageView
-            android:id="@+id/delete_text_button"
-            android:layout_width="@dimen/close_width"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/material_margin_normal"
-            android:contentDescription="@string/close"
-            android:src="@drawable/ic_delete"
-            tools:visibility="visible" />
-
-    </RelativeLayout>
-</FrameLayout>
+</LinearLayout>

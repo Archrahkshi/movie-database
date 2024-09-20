@@ -9,11 +9,7 @@ class ProfileAdapter(
     private val itemsCount: Int
 ) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int {
-        return itemsCount
-    }
+    override fun getItemCount() = itemsCount
 
-    override fun createFragment(position: Int): Fragment {
-        return WatchlistFragment.newInstance()
-    }
+    override fun createFragment(position: Int) = WatchlistFragment.newInstance()
 }

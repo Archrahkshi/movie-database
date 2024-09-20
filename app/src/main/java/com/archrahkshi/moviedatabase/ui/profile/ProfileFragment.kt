@@ -6,43 +6,19 @@ import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
+import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
+import com.archrahkshi.moviedatabase.MovieDatabaseApp.Companion.appContext
 import com.archrahkshi.moviedatabase.R
+import com.archrahkshi.moviedatabase.data.db.AppDatabase
 import com.archrahkshi.moviedatabase.databinding.ProfileFragmentBinding
+import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 
-class ProfileFragment : Fragment() {
-
-    private lateinit var profileTabLayoutTitles: Array<String>
-
-    private var _binding: ProfileFragmentBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    private var profilePageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            Toast.makeText(
-                requireContext(),
-                "Selected position: $position",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = ProfileFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class ProfileFragment : BaseFragment<ProfileFragmentBinding>() {
+    override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        ProfileFragmentBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,37 +27,24 @@ class ProfileFragment : Fragment() {
             .load(R.drawable.ic_avatar)
             .transform(CropCircleTransformation())
             .placeholder(R.drawable.ic_avatar)
-            .into(binding.avatar)
+            .into(binding.profileAvatar)
 
-        profileTabLayoutTitles = resources.getStringArray(R.array.tab_titles)
+        val tabTitles = resources.getStringArray(R.array.tab_titles)
 
-        val profileAdapter = ProfileAdapter(
-            this,
-            profileTabLayoutTitles.size
-        )
-        binding.profileViewPager.adapter = profileAdapter
+        binding.profileViewPager.adapter = ProfileAdapter(this, tabTitles.size)
 
-        binding.profileViewPager.registerOnPageChangeCallback(
-            profilePageChangeCallback
-        )
-
-        TabLayoutMediator(binding.tabLayout, binding.profileViewPager) { tab, position ->
-
-            // Выделение первой части заголовка таба
-            // Название таба
-            val title = profileTabLayoutTitles[position]
-            // Раздеряем название на части. Первый элемент будет кол-во
-            val parts = profileTabLayoutTitles[position].split(" ")
-            val number = parts[0]
-            val spannableStringTitle = SpannableString(title)
-            spannableStringTitle.setSpan(RelativeSizeSpan(2f), 0, number.count(), 0)
-
-            tab.text = spannableStringTitle
-        }.attach()
+        AppDatabase.getInstance(appContext).movieDao().getFavoriteMovies()
+            .applySchedulers()
+            .subscribeAndDispose {
+                TabLayoutMediator(binding.tabLayout, binding.profileViewPager) { tab, position ->
+                    tab.text = SpannableString("$size\n${tabTitles[position]}").also {
+                        it.setSpan(RelativeSizeSpan(2f), 0, size.toString().length, 0)
+                    }
+                }.attach()
+            }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    companion object {
+        val recycledViewPool = RecycledViewPool()
     }
 }

@@ -107,6 +107,7 @@ abstract class BaseFragment<Binding : ViewBinding> : Fragment() {
         action: List<ViewObject>.(GroupAdapter<GroupieViewHolder>) -> Unit
     ) {
         subscribeAndDispose {
+            adapter.clear()
             action(map { it.toViewObject() }, adapter)
             view.adapter = adapter
         }

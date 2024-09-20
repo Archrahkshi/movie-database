@@ -14,6 +14,7 @@ import com.archrahkshi.moviedatabase.data.vo.MovieDetails
 import com.archrahkshi.moviedatabase.databinding.WatchlistFragmentBinding
 import com.archrahkshi.moviedatabase.ui.BaseFragment
 import com.archrahkshi.moviedatabase.ui.feed.KEY_MOVIE_ID
+import com.archrahkshi.moviedatabase.ui.profile.ProfileFragment.Companion.recycledViewPool
 
 class WatchlistFragment : BaseFragment<WatchlistFragmentBinding>() {
     override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
@@ -21,6 +22,7 @@ class WatchlistFragment : BaseFragment<WatchlistFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.watchlist.setRecycledViewPool(recycledViewPool)
         binding.watchlist.layoutManager = GridLayoutManager(context, 4)
 
         AppDatabase.getInstance(appContext).movieDao().getFavoriteMovies()

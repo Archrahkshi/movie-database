@@ -64,12 +64,6 @@
         tools:layout="@layout/profile_fragment" />
 
     <fragment
-        android:id="@+id/search_dest"
-        android:name="com.archrahkshi.moviedatabase.ui.search.SearchFragment"
-        android:label="@string/search"
-        tools:layout="@layout/search_fragment" />
-
-    <fragment
         android:id="@+id/tv_show_details_fragment"
         android:name="com.archrahkshi.moviedatabase.ui.tvshows.TvShowDetailsFragment"
         android:label="TV show details"

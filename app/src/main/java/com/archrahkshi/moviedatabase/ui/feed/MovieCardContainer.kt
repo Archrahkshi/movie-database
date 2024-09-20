@@ -3,6 +3,7 @@ package com.archrahkshi.moviedatabase.ui.feed
 import android.view.View
 import com.archrahkshi.moviedatabase.R
 import com.archrahkshi.moviedatabase.databinding.ItemCardContainerBinding
+import com.archrahkshi.moviedatabase.ui.feed.FeedFragment.Companion.recycledViewPool
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.viewbinding.BindableItem
@@ -13,6 +14,7 @@ class MovieCardContainer(
 ) : BindableItem<ItemCardContainerBinding>() {
     override fun bind(view: ItemCardContainerBinding, position: Int) {
         view.movieCardTitle.text = title
+        view.itemsContainer.setRecycledViewPool(recycledViewPool)
         view.itemsContainer.adapter = GroupAdapter<GroupieViewHolder>().apply { addAll(items) }
     }
 

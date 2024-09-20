@@ -17,6 +17,7 @@
             android:layout_width="79dp"
             android:layout_height="79dp"
             android:layout_gravity="center"
+            android:contentDescription="@string/actor_image"
             app:srcCompat="@drawable/ic_profile"
             app:tint="@color/grey" />
 
